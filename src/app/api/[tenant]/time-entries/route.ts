@@ -240,7 +240,7 @@ export async function PATCH(
       return NextResponse.json({ error: 'Entry ID required' }, { status: 400 });
     }
 
-    // 🔍 Verificar si la entry es editable
+    // Verificar si la entry es editable
     const { data: existingEntry, error: fetchError } = await supabaseAdmin
       .from('time_entries')
       .select('id, bc_sync_status, is_editable, company_id')
@@ -251,14 +251,14 @@ export async function PATCH(
       return NextResponse.json({ error: 'Time entry not found' }, { status: 404 });
     }
 
-    // ❌ No permitir edición si está posted
+    // No permitir edición si está posted
     if (!existingEntry.is_editable || existingEntry.bc_sync_status === 'posted') {
       return NextResponse.json({ 
         error: 'Cannot modify entry: already posted in Business Central' 
       }, { status: 400 });
     }
 
-    // 🔄 Partial validation for updates
+    // Partial validation for updates
     const allowedFields = ['hours', 'description', 'start_time', 'end_time', 'bc_job_id', 'bc_task_id'];
     const filteredData = Object.keys(updateData)
       .filter(key => allowedFields.includes(key))
@@ -267,7 +267,7 @@ export async function PATCH(
         return obj;
       }, {} as any);
 
-    // 📝 Actualizar entry
+    // Actualizar entry
     const { data: updatedEntry, error } = await supabaseAdmin
       .from('time_entries')
       .update({
