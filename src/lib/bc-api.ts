@@ -175,8 +175,8 @@ export class BusinessCentralClient {
       console.log(`Found ${data.value.length} job planning lines for resource ${resourceNo}`);
 
       // Extract unique job numbers AND job task numbers where the resource is assigned
-      const uniqueJobNos = [...new Set(data.value.map(line => line.jobNo))];
-      const assignedTaskKeys = new Set(data.value.map(line => `${line.jobNo}-${line.jobTaskNo}`));
+      const uniqueJobNos = [...new Set(data.value.map((line: any) => line.jobNo))];
+const assignedTaskKeys = new Set(data.value.map((line: any) => `${line.jobNo}-${line.jobTaskNo}`));
       
       console.log('Unique job numbers:', uniqueJobNos);
       console.log('Assigned task keys:', Array.from(assignedTaskKeys));
