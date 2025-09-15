@@ -129,12 +129,13 @@ export class BusinessCentralClient {
       return data;
       
     } catch (error) {
-      const duration = Date.now() - startTime;
-      console.error('❌ BC API Call Failed:', error.message);
-      console.error('⏱️  Failed after:', duration + 'ms');
-      console.error('🔚 ===== END BC API CALL (ERROR) =====\n');
-      throw error;
-    }
+	  const duration = Date.now() - startTime;
+	  const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+	  console.error('❌ BC API Call Failed:', errorMessage);  // ✅ CORRECTO
+	  console.error('⏱️ Failed after:', duration + 'ms');
+	  console.error('🔚 ===== END BC API CALL (ERROR) =====\n');
+	  throw error;
+	}
   }
 
   async validateResourceCredentials(username: string, password: string) {
