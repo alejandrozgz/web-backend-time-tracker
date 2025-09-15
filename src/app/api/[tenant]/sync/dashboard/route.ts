@@ -32,10 +32,11 @@ export async function GET(
     return NextResponse.json(dashboard);
 
   } catch (error) {
-    console.error('❌ Sync dashboard error:', error);
-    return NextResponse.json({ 
-      error: 'Failed to load sync dashboard',
-      details: error.message 
-    }, { status: 500 });
-  }
+	  console.error('❌ Dashboard error:', error);
+	  const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+	  return NextResponse.json({
+		error: 'Failed to load sync dashboard',
+		details: errorMessage  // ✅ CORRECTO
+	  }, { status: 500 });
+	}
 }

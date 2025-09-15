@@ -35,12 +35,13 @@ export async function GET(
     });
 
   } catch (error) {
-    console.error('❌ Get pending entries error:', error);
-    return NextResponse.json({ 
-      error: 'Failed to get pending entries',
-      details: error.message,
-      entries: [],
-      count: 0
-    }, { status: 500 });
-  }
+	  console.error('❌ Get pending entries error:', error);
+	  const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+	  return NextResponse.json({ 
+		error: 'Failed to get pending entries',
+		details: errorMessage,  // ✅ CORRECTO
+		entries: [],
+		count: 0
+	  }, { status: 500 });
+	}
 }

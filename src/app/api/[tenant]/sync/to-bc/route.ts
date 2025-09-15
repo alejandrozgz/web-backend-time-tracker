@@ -110,6 +110,8 @@ export async function POST(
       } catch (error) {
         console.error(`❌ Failed to sync entry ${entry.id}:`, error);
         
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        
         // Mark as error
         await supabaseAdmin
           .from('time_entries')
@@ -120,7 +122,7 @@ export async function POST(
           .eq('id', entry.id);
 
         failedCount++;
-        errors.push(`Entry ${entry.id}: ${error.message}`);
+        errors.push(`Entry ${entry.id}: ${errorMessage}`);  // ✅ CORRECTO
       }
     }
 
