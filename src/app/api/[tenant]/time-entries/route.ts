@@ -83,9 +83,10 @@ export async function GET(
 
   } catch (error) {
     console.error('❌ Fetch time entries error:', error);
+	const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json({ 
       error: 'Failed to fetch time entries',
-      details: error.message 
+      details: errorMessage 
     }, { status: 500 });
   }
 }
@@ -210,7 +211,7 @@ export async function POST(
 
   } catch (error) {
     console.error('❌ Create time entry error:', error);
-    
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     if (error instanceof z.ZodError) {
       return NextResponse.json({ 
         error: 'Validation failed',
@@ -220,7 +221,7 @@ export async function POST(
 
     return NextResponse.json({ 
       error: 'Failed to create time entry',
-      details: error.message 
+      details: errorMessage 
     }, { status: 500 });
   }
 }
@@ -288,9 +289,10 @@ export async function PATCH(
 
   } catch (error) {
     console.error('❌ Update time entry error:', error);
+	const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json({ 
       error: 'Failed to update time entry',
-      details: error.message 
+      details: errorMessage 
     }, { status: 500 });
   }
 }
@@ -342,9 +344,10 @@ export async function DELETE(
 
   } catch (error) {
     console.error('❌ Delete time entry error:', error);
+	const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json({ 
       error: 'Failed to delete time entry',
-      details: error.message 
+      details: errorMessage 
     }, { status: 500 });
   }
 }

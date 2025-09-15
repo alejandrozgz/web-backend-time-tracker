@@ -154,10 +154,11 @@ export async function GET(
     });
 
   } catch (error) {
-    console.error('❌ Jobs fetch error:', error);
-    return NextResponse.json({ 
-      error: 'Failed to fetch jobs',
-      details: error.message 
-    }, { status: 500 });
-  }
+	  console.error('❌ Jobs fetch error:', error);
+	  const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+	  return NextResponse.json({ 
+		error: 'Failed to fetch jobs',
+		details: errorMessage  // ✅ CORRECTO
+	  }, { status: 500 });
+	}
 }
