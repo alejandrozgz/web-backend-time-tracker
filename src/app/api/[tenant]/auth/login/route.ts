@@ -126,12 +126,15 @@ export async function POST(
         return response;
 
       } catch (bcError) {
-        console.error(`❌ Business Central OAuth error for tenant ${tenant.slug}:`, bcError);
-        
-        // ❌ NO FALLBACK - Devolver error real
-        const errorResponse = NextResponse.json({ 
-          error: `Business Central authentication failed: ${bcError.message}. Try demo/123 for testing.` 
-        }, { status: 401 });
+		  console.error(`❌ Business Central OAuth error for tenant ${tenant.slug}:`, bcError);
+		  
+		  // ✅ FIX: Manejar bcError como unknown
+		  const errorMessage = bcError instanceof Error ? bcError.message : 'Unknown error';
+		  
+		  // ❌ NO FALLBACK - Devolver error real
+		  const errorResponse = NextResponse.json({ 
+			error: `Business Central authentication failed: ${errorMessage}. Try demo/123 for testing.` 
+		  }, { status: 401 });
         errorResponse.headers.set('Access-Control-Allow-Origin', '*');
         return errorResponse;
       }
