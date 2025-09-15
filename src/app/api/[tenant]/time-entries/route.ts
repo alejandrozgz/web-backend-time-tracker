@@ -213,11 +213,11 @@ export async function POST(
     console.error('❌ Create time entry error:', error);
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ 
-        error: 'Validation failed',
-        details: error.errors 
-      }, { status: 400 });
-    }
+	  return NextResponse.json({ 
+		error: 'Validation failed',
+		details: error.issues  // ✅ CORRECTO
+	  }, { status: 400 });
+	}
 
     return NextResponse.json({ 
       error: 'Failed to create time entry',
