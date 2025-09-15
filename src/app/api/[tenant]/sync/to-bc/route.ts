@@ -153,13 +153,14 @@ export async function POST(
     });
 
   } catch (error) {
-    console.error('❌ Sync to BC error:', error);
-    return NextResponse.json({ 
-      success: false,
-      synced_entries: 0,
-      failed_entries: 0,
-      message: `Sync failed: ${error.message}`,
-      error: 'Failed to sync to Business Central'
-    }, { status: 500 });
-  }
+	  console.error('❌ Sync error:', error);
+	  const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+	  return NextResponse.json({ 
+		success: false,
+		synced_entries: 0,
+		failed_entries: 0,
+		error: 'Sync failed',
+		details: errorMessage  // ✅ CORRECTO
+	  }, { status: 500 });
+	}
 }
