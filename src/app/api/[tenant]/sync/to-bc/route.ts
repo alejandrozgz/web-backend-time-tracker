@@ -137,8 +137,8 @@ export async function POST(
           status: 'draft',
           entries_count: syncedCount,
           total_hours: pendingEntries
-            .filter(e => !errors.some(err => err.includes(e.id)))
-            .reduce((sum, e) => sum + parseFloat(e.hours), 0)
+			  .filter((e: any) => !errors.some(err => err.includes(e.id)))
+			  .reduce((sum: number, e: any) => sum + parseFloat(e.hours), 0)
         });
     }
 
