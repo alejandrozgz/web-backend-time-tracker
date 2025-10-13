@@ -86,10 +86,7 @@ export async function POST(
 		  no: entry.resource_no,
 		  postingDate: entry.date,
 		  quantity: parseFloat(entry.hours),
-		  description: entry.description,
-		  // workTypeCode eliminado - BC usará el valor por defecto
-		  unitCost: 0,
-		  unitPrice: 0
+		  description: entry.description
 		});
 
         // ✅ Update local status
