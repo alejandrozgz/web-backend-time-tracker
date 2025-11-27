@@ -2,13 +2,28 @@ import { NextRequest, NextResponse } from 'next/server';
 import { validateAdminAuth } from '@/lib/auth';
 
 /**
- * Middleware to protect admin routes
+ * Middleware to protect admin routes (regular routes without params)
  * Validates JWT token and ensures admin is authenticated
  */
 export function withAdminAuth(
   handler: (request: NextRequest) => Promise<NextResponse>
-): (request: NextRequest) => Promise<NextResponse> {
-  return async (request: NextRequest) => {
+): (request: NextRequest) => Promise<NextResponse>;
+
+/**
+ * Middleware to protect admin routes (dynamic routes with params)
+ * Validates JWT token and ensures admin is authenticated
+ */
+export function withAdminAuth<T>(
+  handler: (request: NextRequest, context: T) => Promise<NextResponse>
+): (request: NextRequest, context: T) => Promise<NextResponse>;
+
+/**
+ * Implementation
+ */
+export function withAdminAuth<T = never>(
+  handler: (request: NextRequest, context?: T) => Promise<NextResponse>
+): (request: NextRequest, context?: T) => Promise<NextResponse> {
+  return async (request: NextRequest, context?: T) => {
     // Validate authentication
     const adminData = validateAdminAuth(request);
 
@@ -29,8 +44,12 @@ export function withAdminAuth(
       headers: requestHeaders,
     });
 
-    // Call the actual handler
-    return handler(modifiedRequest);
+    // Call the actual handler with or without context
+    if (context !== undefined) {
+      return handler(modifiedRequest, context);
+    } else {
+      return handler(modifiedRequest);
+    }
   };
 }
 
