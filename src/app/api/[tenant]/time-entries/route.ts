@@ -2,12 +2,19 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { z } from 'zod';
 
+/**
+ * Sync Status States:
+ * - 'not_synced': Not synced to BC yet (new entry)
+ * - 'synced': Synced to BC as editable draft
+ * - 'error': Sync failed, needs retry
+ */
+
 // 📋 Validation schema usando BC IDs
 const timeEntrySchema = z.object({
   bc_job_id: z.string().min(1, 'BC Job ID required'),
   bc_task_id: z.string().min(1, 'BC Task ID required'),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Invalid date format'),
-  hours: z.number().min(0.1).max(24, 'Hours must be between 0.1 and 24'),
+  hours: z.number().min(0.01, 'Minimum time is 36 seconds (0.01 hours)').max(24, 'Hours must be between 0.01 and 24'),
   description: z.string().min(1, 'Description required'),
   start_time: z.string().optional(),
   end_time: z.string().optional(),
@@ -25,6 +32,8 @@ export async function GET(
     const companyId = url.searchParams.get('companyId');
     const from = url.searchParams.get('from');
     const to = url.searchParams.get('to');
+    const limit = parseInt(url.searchParams.get('limit') || '100');
+    const offset = parseInt(url.searchParams.get('offset') || '0');
 
     if (!companyId) {
       return NextResponse.json({ error: 'Company ID required' }, { status: 400 });
@@ -73,7 +82,7 @@ export async function GET(
     if (from) query = query.gte('date', from);
     if (to) query = query.lte('date', to);
 
-    const { data: entries, error } = await query.limit(100);
+    const { data: entries, error } = await query.range(offset, offset + limit - 1);
 
     if (error) throw error;
 
@@ -134,20 +143,31 @@ export async function POST(
       throw new Error('Company not found');
     }
 
-    // Extract resource from JWT token
+    // Extract resource and batch info from JWT token
     const authHeader = request.headers.get('authorization');
     let resourceNo = 'R0010'; // fallback
+    let jobJournalBatch: string | undefined;
 
     if (authHeader && authHeader.startsWith('Bearer ')) {
       try {
         const token = authHeader.substring(7);
         const decodedToken = JSON.parse(Buffer.from(token, 'base64').toString());
         resourceNo = decodedToken.resourceNo || 'R0010';
-        console.log('Using resource from token:', resourceNo);
+        jobJournalBatch = decodedToken.jobJournalBatch;
+        console.log('📋 Token decoded - resource:', resourceNo, 'batch:', jobJournalBatch || '❌ NOT CONFIGURED');
       } catch (e) {
         console.log('Could not decode token, using fallback resource');
       }
     }
+
+    // ❌ STRICT: Fail if batch is not configured
+    if (!jobJournalBatch) {
+      return NextResponse.json({
+        error: `Resource ${resourceNo} does not have a jobJournalBatch configured in Business Central. Please configure the batch name for this resource before creating time entries.`
+      }, { status: 400 });
+    }
+
+    console.log('✅ Using batch:', jobJournalBatch);
 
     // 🔍 Check for overlapping entries (same user, same day)
     const { data: existingEntries } = await supabaseAdmin
@@ -161,18 +181,18 @@ export async function POST(
     if (validatedData.start_time && validatedData.end_time) {
       const hasOverlap = existingEntries?.some(entry => {
         if (!entry.start_time || !entry.end_time) return false;
-        
+
         const newStart = new Date(`2000-01-01T${validatedData.start_time}`);
         const newEnd = new Date(`2000-01-01T${validatedData.end_time}`);
         const existingStart = new Date(`2000-01-01T${entry.start_time}`);
         const existingEnd = new Date(`2000-01-01T${entry.end_time}`);
-        
+
         return (newStart < existingEnd && newEnd > existingStart);
       });
 
       if (hasOverlap) {
-        return NextResponse.json({ 
-          error: 'Time overlap detected with existing entry' 
+        return NextResponse.json({
+          error: 'Time overlap detected with existing entry'
         }, { status: 400 });
       }
     }
@@ -189,7 +209,8 @@ export async function POST(
       start_time: validatedData.start_time,
       end_time: validatedData.end_time,
       resource_no: resourceNo,
-      bc_sync_status: 'local', // Initial status
+      bc_batch_name: jobJournalBatch, // ✅ STRICT: Must be configured, no fallback
+      bc_sync_status: 'not_synced', // Initial status
       is_editable: true,
       created_at: new Date().toISOString(),
       last_modified_at: new Date().toISOString()
@@ -252,10 +273,11 @@ export async function PATCH(
       return NextResponse.json({ error: 'Time entry not found' }, { status: 404 });
     }
 
-    // No permitir edición si está posted
-    if (!existingEntry.is_editable || existingEntry.bc_sync_status === 'posted') {
-      return NextResponse.json({ 
-        error: 'Cannot modify entry: already posted in Business Central' 
+    // No permitir edición si no es editable
+    // Status: 'not_synced', 'synced', 'error'
+    if (!existingEntry.is_editable) {
+      return NextResponse.json({
+        error: 'Cannot modify entry: not editable'
       }, { status: 400 });
     }
 
@@ -274,8 +296,8 @@ export async function PATCH(
       .update({
         ...filteredData,
         last_modified_at: new Date().toISOString(),
-        // Si ya estaba sincronizada, marcar como modificada
-        ...(existingEntry.bc_sync_status === 'draft' && { bc_sync_status: 'modified' })
+        // Si ya estaba sincronizada, marcar como no sincronizada para que se vuelva a sincronizar
+        ...(existingEntry.bc_sync_status === 'synced' && { bc_sync_status: 'not_synced' })
       })
       .eq('id', entryId)
       .select()
@@ -322,10 +344,11 @@ export async function DELETE(
       return NextResponse.json({ error: 'Time entry not found' }, { status: 404 });
     }
 
-    // ❌ No permitir eliminación si está posted
-    if (!existingEntry.is_editable || existingEntry.bc_sync_status === 'posted') {
-      return NextResponse.json({ 
-        error: 'Cannot delete entry: already posted in Business Central' 
+    // ❌ No permitir eliminación si no es editable
+    // Status: 'not_synced', 'synced', 'error'
+    if (!existingEntry.is_editable) {
+      return NextResponse.json({
+        error: 'Cannot delete entry: not editable'
       }, { status: 400 });
     }
 

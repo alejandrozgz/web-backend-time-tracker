@@ -142,18 +142,33 @@ export class BusinessCentralClient {
     try {
       const endpoint = `/companies(${this.companyId})/resourceAuth?$filter=webUsername eq '${username}'`;
       const data = await this.callBCApi(endpoint);
-      
+
       if (!data.value || data.value.length === 0) {
         throw new Error('Invalid credentials - user not found');
       }
 
       const resource = data.value[0];
-      
+
+      console.log(`📋 Raw resource object:`, JSON.stringify(resource, null, 2));
+      console.log(`📋 Resource fields:`, Object.keys(resource));
+
+      // Try different possible field names for job journal batch
+      const jobJournalBatch = resource.jobJournalBatch || resource.JobJournalBatch ||
+                              resource.jobJournalBatchName || resource.JobJournalBatchName;
+
+      console.log(`📋 Checked field variations:`);
+      console.log(`  - resource.jobJournalBatch: ${resource.jobJournalBatch}`);
+      console.log(`  - resource.JobJournalBatch: ${resource.JobJournalBatch}`);
+      console.log(`  - resource.jobJournalBatchName: ${resource.jobJournalBatchName}`);
+      console.log(`  - resource.JobJournalBatchName: ${resource.JobJournalBatchName}`);
+      console.log(`📋 Final jobJournalBatch value: ${jobJournalBatch || 'NOT FOUND'}`);
+
       return {
         resourceNo: resource.resourceNo,
         displayName: resource.name || resource.displayName,
         webUsername: resource.webUsername,
-        isActive: resource.blocked !== true
+        isActive: resource.blocked !== true,
+        jobJournalBatch: jobJournalBatch || undefined
       };
     } catch (error) {
       console.error('BC Auth error:', error);
@@ -260,16 +275,16 @@ export class BusinessCentralClient {
   async getTimeEntries(resourceNo?: string, dateFrom?: string, dateTo?: string): Promise<any[]> {
     try {
       let endpoint = `/companies(${this.companyId})/timeEntries`;
-      
+
       const filters = [];
       if (resourceNo) filters.push(`resourceNo eq '${resourceNo}'`);
       if (dateFrom) filters.push(`date ge ${dateFrom}`);
       if (dateTo) filters.push(`date le ${dateTo}`);
-      
+
       if (filters.length > 0) {
         endpoint += `?$filter=${filters.join(' and ')}`;
       }
-      
+
       const data = await this.callBCApi(endpoint);
       return data.value || [];
     } catch (error) {

@@ -1,0 +1,13 @@
+Files to protect with withAdminAuth:
+1. /api/admin/tenants/route.ts - GET, POST
+2. /api/admin/tenants/[id]/route.ts - GET, PATCH, DELETE
+3. /api/admin/time-entries/route.ts - GET
+
+Already protected:
+✓ /api/admin/dashboard/route.ts - GET
+✓ /api/admin/user-activity/route.ts - GET
+✓ /api/admin/companies/route.ts - GET, POST
+
+No protection needed (auth endpoints):
+- /api/admin/auth/login/route.ts
+- /api/admin/auth/verify/route.ts

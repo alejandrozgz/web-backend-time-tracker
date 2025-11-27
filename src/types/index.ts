@@ -32,6 +32,7 @@ export interface Resource {
   resource_no: string;
   display_name: string;
   web_username?: string;
+  bc_journal_batch?: string;
   permissions: Record<string, any>;
   is_active: boolean;
   created_at: string;

@@ -21,11 +21,9 @@ export async function GET(
     if (error) throw error;
 
     const dashboard = dashboardData?.[0] || {
-      local_entries: 0,
-      draft_entries: 0,
-      posted_entries: 0,
+      not_synced_entries: 0,
+      synced_entries: 0,
       error_entries: 0,
-      modified_entries: 0,
       pending_hours: 0
     };
 

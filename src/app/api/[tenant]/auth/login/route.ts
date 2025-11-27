@@ -93,16 +93,27 @@ export async function POST(
         }
 
         console.log(`✅ BC OAuth success for user ${bcResource.resourceNo}`);
+        console.log(`📋 bcResource object:`, JSON.stringify(bcResource, null, 2));
+        console.log(`📋 jobJournalBatch value:`, bcResource.jobJournalBatch);
+        console.log(`📋 jobJournalBatch type:`, typeof bcResource.jobJournalBatch);
 
-        // Create JWT token with BC resource info
-        const token = Buffer.from(JSON.stringify({
+        // Note: User activity is tracked via time_entries.resource_no and time_entries.last_modified_at
+        // No separate users table needed
+
+        // Create JWT token with BC resource info including jobJournalBatch
+        const tokenPayload = {
           tenantId: tenant.id,
           companyId: company.id,
           resourceNo: bcResource.resourceNo,
           displayName: bcResource.displayName,
           webUsername: bcResource.webUsername,
+          jobJournalBatch: bcResource.jobJournalBatch,
           exp: Date.now() + (24 * 60 * 60 * 1000) // 24 hours
-        })).toString('base64');
+        };
+
+        console.log(`📋 Token payload:`, JSON.stringify(tokenPayload, null, 2));
+
+        const token = Buffer.from(JSON.stringify(tokenPayload)).toString('base64');
 
         const response = NextResponse.json({
           token,
