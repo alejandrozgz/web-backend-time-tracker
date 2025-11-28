@@ -18,16 +18,34 @@ export async function GET(
       return NextResponse.json({ error: 'Company ID required' }, { status: 400 });
     }
 
-    // 📊 Get pending entries using the SQL function
+    // 🔑 Extract resourceNo from JWT token to filter by user
+    const authHeader = request.headers.get('authorization');
+    let resourceNo: string | undefined;
+
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      try {
+        const token = authHeader.substring(7);
+        const decodedToken = JSON.parse(Buffer.from(token, 'base64').toString());
+        resourceNo = decodedToken.resourceNo;
+        console.log('🔍 Resource No:', resourceNo);
+      } catch (e) {
+        console.warn('Could not decode token for user filtering', { error: e });
+      }
+    }
+
+    // 📊 Get pending entries using the SQL function (filtered by user)
     const { data: entries, error } = await supabaseAdmin
-      .rpc('get_pending_sync_entries', { p_company_id: companyId });
+      .rpc('get_pending_sync_entries', {
+        p_company_id: companyId,
+        p_resource_no: resourceNo  // 🔑 Filter by current user
+      });
 
     if (error) {
       console.error('❌ Error getting pending entries:', error);
       throw error;
     }
 
-    console.log(`📊 Found ${entries?.length || 0} pending entries`);
+    console.log(`📊 Found ${entries?.length || 0} pending entries for user ${resourceNo || 'ALL'}`);
 
     return NextResponse.json({
       entries: entries || [],

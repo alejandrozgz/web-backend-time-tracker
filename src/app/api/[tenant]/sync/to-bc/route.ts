@@ -28,6 +28,21 @@ export async function POST(
       return NextResponse.json({ error: 'Company ID required' }, { status: 400 });
     }
 
+    // 🔑 Extract resourceNo from JWT token to filter sync by user
+    const authHeader = request.headers.get('authorization');
+    let resourceNo: string | undefined;
+
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      try {
+        const token = authHeader.substring(7);
+        const decodedToken = JSON.parse(Buffer.from(token, 'base64').toString());
+        resourceNo = decodedToken.resourceNo;
+        logger.info('Sync requested by user', { resourceNo });
+      } catch (e) {
+        logger.warn('Could not decode token for user filtering', { error: e });
+      }
+    }
+
     // Get tenant and company
     const [tenantResult, companyResult] = await Promise.all([
       supabaseAdmin.from('tenants').select('*').eq('slug', tenantSlug).single(),
@@ -69,9 +84,12 @@ export async function POST(
       });
     }
 
-    // 📊 Get pending entries
+    // 📊 Get pending entries (filtered by user's resourceNo)
     const { data: pendingEntries, error: entriesError } = await supabaseAdmin
-      .rpc('get_pending_sync_entries', { p_company_id: companyId });
+      .rpc('get_pending_sync_entries', {
+        p_company_id: companyId,
+        p_resource_no: resourceNo  // 🔑 Filter by current user
+      });
 
     if (entriesError) throw entriesError;
 
@@ -84,7 +102,7 @@ export async function POST(
         company_id: companyId,
         operation_type: 'sync_to_bc',
         log_level: 'info',
-        message: 'No entries to sync',
+        message: resourceNo ? `No entries to sync for user ${resourceNo}` : 'No entries to sync',
         duration_ms: duration,
         entries_processed: 0,
         entries_succeeded: 0,
@@ -95,11 +113,11 @@ export async function POST(
         success: true,
         synced_entries: 0,
         failed_entries: 0,
-        message: 'No entries to sync'
+        message: resourceNo ? `No entries to sync for user ${resourceNo}` : 'No entries to sync'
       });
     }
 
-    logger.info('Pending entries found', { count: pendingEntries.length, companyId });
+    logger.info('Pending entries found', { count: pendingEntries.length, companyId, resourceNo });
 
     // 🚀 Initialize BC Client
     const bcClient = new BusinessCentralClient(tenant, company);

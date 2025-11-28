@@ -1,0 +1,16 @@
+[2025-11-28T10:04:59.391Z] [INFO] Sync to BC started | {"tenantSlug":"silki","companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f"}
+[2025-11-28T10:04:59.393Z] [INFO] Sync requested by user | {"resourceNo":"R0030"}
+[2025-11-28T10:04:59.665Z] [INFO] Pending entries found | {"count":1,"companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f","resourceNo":"R0030"}
+[2025-11-28T10:04:59.666Z] [DEBUG] Syncing entry to BC | {"entryId":"ef3f9fe7-da9a-4889-aea7-7cf063f40f4d","batch":"TT-ATEF-WE","description":"TEST ALEJANDRO"}
+[2025-11-28T10:04:59.667Z] [DEBUG] Creating new BC journal line | {"entryId":"ef3f9fe7-da9a-4889-aea7-7cf063f40f4d"}
+[2025-11-28T10:05:00.513Z] [INFO] Entry synced successfully to BC | {"entryId":"ef3f9fe7-da9a-4889-aea7-7cf063f40f4d","batch":"TT-ATEF-WE","journalId":"2d56bfb2-41cc-f011-8542-000d3a7fde70"}
+[2025-11-28T10:05:00.721Z] [INFO] Batch record created | {"batchName":"TT-ATEF-WE","entries":1,"hours":"1.00"}
+[2025-11-28T10:05:00.917Z] [INFO] Sync to BC completed | {"synced":1,"failed":0,"batches":"TT-ATEF-WE","durationMs":1135}
+[2025-11-28T10:05:24.128Z] [INFO] Sync to BC started | {"tenantSlug":"silki","companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f"}
+[2025-11-28T10:05:24.129Z] [INFO] Sync requested by user | {"resourceNo":"R0010"}
+[2025-11-28T10:05:24.340Z] [INFO] Pending entries found | {"count":1,"companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f","resourceNo":"R0010"}
+[2025-11-28T10:05:24.341Z] [DEBUG] Syncing entry to BC | {"entryId":"cdca9648-7216-47e1-acf3-10db4df91de5","batch":"TT-ELY-WEB","description":"TEST LOG"}
+[2025-11-28T10:05:24.342Z] [DEBUG] Creating new BC journal line | {"entryId":"cdca9648-7216-47e1-acf3-10db4df91de5"}
+[2025-11-28T10:05:25.139Z] [INFO] Entry synced successfully to BC | {"entryId":"cdca9648-7216-47e1-acf3-10db4df91de5","batch":"TT-ELY-WEB","journalId":"bf1600be-41cc-f011-8542-000d3a7fde70"}
+[2025-11-28T10:05:25.240Z] [INFO] Batch record created | {"batchName":"TT-ELY-WEB","entries":1,"hours":"1.00"}
+[2025-11-28T10:05:25.433Z] [INFO] Sync to BC completed | {"synced":1,"failed":0,"batches":"TT-ELY-WEB","durationMs":1012}

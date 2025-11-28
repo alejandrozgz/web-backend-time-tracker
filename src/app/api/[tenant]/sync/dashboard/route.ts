@@ -14,9 +14,26 @@ export async function GET(
       return NextResponse.json({ error: 'Company ID required' }, { status: 400 });
     }
 
-    // 📊 Query dashboard data
+    // 🔑 Extract resourceNo from JWT token to filter dashboard by user
+    const authHeader = request.headers.get('authorization');
+    let resourceNo: string | undefined;
+
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      try {
+        const token = authHeader.substring(7);
+        const decodedToken = JSON.parse(Buffer.from(token, 'base64').toString());
+        resourceNo = decodedToken.resourceNo;
+      } catch (e) {
+        console.warn('Could not decode token for user filtering in dashboard', { error: e });
+      }
+    }
+
+    // 📊 Query dashboard data (filtered by user's resourceNo)
     const { data: dashboardData, error } = await supabaseAdmin
-      .rpc('get_sync_dashboard', { p_company_id: companyId });
+      .rpc('get_sync_dashboard', {
+        p_company_id: companyId,
+        p_resource_no: resourceNo  // 🔑 Filter by current user
+      });
 
     if (error) throw error;
 
