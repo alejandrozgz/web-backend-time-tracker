@@ -244,6 +244,22 @@ export class BusinessCentralClient {
     }
   }
 
+  async updateJobJournalLine(journalLine: any): Promise<any> {
+    try {
+      // 📝 Update existing Job Journal Line (editable)
+      const { id, ...updateData } = journalLine;
+      const endpoint = `/companies(${this.companyId})/jobJournalLines(${id})`;
+      const data = await this.callBCApi(endpoint, {
+        method: 'PATCH',
+        body: JSON.stringify(updateData)
+      });
+      return data;
+    } catch (error) {
+      console.error('BC Update Job Journal Line error:', error);
+      throw error;
+    }
+  }
+
   async createTimeEntry(timeEntry: any): Promise<any> {
     try {
       const endpoint = `/companies(${this.companyId})/timeEntries`;

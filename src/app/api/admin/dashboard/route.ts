@@ -61,13 +61,16 @@ async function handler(request: NextRequest) {
     );
     const activeUsers = activeResourceNos.size;
 
-    // Count entries by status
+    // Count entries by status (new simplified schema)
     const entriesByStatus = {
-      local: timeEntries.filter(e => e.bc_sync_status === 'local').length,
-      draft: timeEntries.filter(e => e.bc_sync_status === 'draft').length,
-      posted: timeEntries.filter(e => e.bc_sync_status === 'posted').length,
+      not_synced: timeEntries.filter(e => e.bc_sync_status === 'not_synced').length,
+      synced: timeEntries.filter(e => e.bc_sync_status === 'synced').length,
       error: timeEntries.filter(e => e.bc_sync_status === 'error').length,
-      modified: timeEntries.filter(e => e.bc_sync_status === 'modified').length
+      // Legacy status counts (should be 0 after cleanup migration)
+      other: timeEntries.filter(e =>
+        e.bc_sync_status &&
+        !['not_synced', 'synced', 'error'].includes(e.bc_sync_status)
+      ).length
     };
 
     // Process sync logs

@@ -1,0 +1,16 @@
+[2025-11-27T18:01:45.889Z] [INFO] Admin login attempt | {"username":"admin"}
+[2025-11-27T18:01:46.016Z] [WARN] Admin login failed - user not found | {"username":"admin"}
+[2025-11-27T18:02:42.592Z] [INFO] Admin login attempt | {"username":"admin"}
+[2025-11-27T18:02:42.784Z] [WARN] Admin login failed - user not found | {"username":"admin"}
+[2025-11-27T18:04:34.397Z] [INFO] Admin login attempt | {"username":"admin"}
+[2025-11-27T18:04:34.601Z] [WARN] Admin login failed - user not found | {"username":"admin"}
+[2025-11-27T18:40:44.271Z] [INFO] Admin login attempt | {"username":"admin"}
+[2025-11-27T18:40:44.512Z] [INFO] Admin login successful | {"username":"admin","userId":"ecb721c0-7e82-46ec-8d27-9e0a069bc1c3"}
+[2025-11-27T18:42:40.379Z] [INFO] Admin login attempt | {"username":"admin"}
+[2025-11-27T18:42:40.819Z] [INFO] Admin login successful | {"username":"admin","userId":"ecb721c0-7e82-46ec-8d27-9e0a069bc1c3"}
+[2025-11-27T18:43:12.226Z] [INFO] Create time entry request | {"tenant":"silki"}
+[2025-11-27T18:43:12.227Z] [DEBUG] Raw input data | {"rawData":{"bc_job_id":"P24_0011","bc_task_id":"1","date":"2025-11-27","hours":1,"description":"TEST LOG","start_time":"15:00","end_time":"16:00","companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f"}}
+[2025-11-27T18:43:12.229Z] [DEBUG] Input validated | {"validatedData":{"bc_job_id":"P24_0011","bc_task_id":"1","date":"2025-11-27","hours":1,"description":"TEST LOG","start_time":"15:00","end_time":"16:00"}}
+[2025-11-27T18:43:12.807Z] [DEBUG] Token decoded | {"resourceNo":"R0010","jobJournalBatch":"TT-ELY-WEB"}
+[2025-11-27T18:43:12.808Z] [INFO] Using configured batch | {"batch":"TT-ELY-WEB","resourceNo":"R0010"}
+[2025-11-27T18:43:13.327Z] [INFO] Time entry created successfully | {"entryId":"cdca9648-7216-47e1-acf3-10db4df91de5","resourceNo":"R0010","batch":"TT-ELY-WEB"}

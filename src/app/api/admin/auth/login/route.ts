@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { comparePassword, generateToken } from '@/lib/auth';
+import { logger } from '@/lib/logger';
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,7 +16,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log(`🔐 Admin login attempt for username: ${username}`);
+    logger.info('Admin login attempt', { username });
 
     // Query admin_users table
     const { data: adminUser, error: queryError } = await supabaseAdmin
@@ -25,7 +26,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (queryError || !adminUser) {
-      console.log('❌ Admin user not found');
+      logger.warn('Admin login failed - user not found', { username });
       return NextResponse.json(
         { error: 'Invalid credentials' },
         { status: 401 }
@@ -34,7 +35,7 @@ export async function POST(request: NextRequest) {
 
     // Check if admin is active
     if (!adminUser.is_active) {
-      console.log('❌ Admin user is inactive');
+      logger.warn('Admin login failed - account inactive', { username });
       return NextResponse.json(
         { error: 'Account is inactive' },
         { status: 403 }
@@ -45,7 +46,7 @@ export async function POST(request: NextRequest) {
     const isPasswordValid = await comparePassword(password, adminUser.password_hash);
 
     if (!isPasswordValid) {
-      console.log('❌ Invalid password');
+      logger.warn('Admin login failed - invalid password', { username });
       return NextResponse.json(
         { error: 'Invalid credentials' },
         { status: 401 }
@@ -61,7 +62,7 @@ export async function POST(request: NextRequest) {
     // Generate JWT token
     const token = generateToken(adminUser.id, adminUser.username);
 
-    console.log(`✅ Admin login successful for: ${username}`);
+    logger.info('Admin login successful', { username, userId: adminUser.id });
 
     return NextResponse.json({
       success: true,
@@ -73,7 +74,7 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error during admin login:', error);
+    logger.error('Admin login error', { error });
     return NextResponse.json(
       { error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown' },
       { status: 500 }

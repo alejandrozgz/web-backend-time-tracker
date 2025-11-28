@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { z } from 'zod';
+import { logger } from '@/lib/logger';
 
 /**
  * Sync Status States:
@@ -32,6 +33,7 @@ export async function GET(
     const companyId = url.searchParams.get('companyId');
     const from = url.searchParams.get('from');
     const to = url.searchParams.get('to');
+    const resourceNo = url.searchParams.get('resource_no'); // Add resource_no filter
     const limit = parseInt(url.searchParams.get('limit') || '100');
     const offset = parseInt(url.searchParams.get('offset') || '0');
 
@@ -78,9 +80,10 @@ export async function GET(
       .order('date', { ascending: false })
       .order('created_at', { ascending: false });
 
-    // Apply date filters
+    // Apply filters
     if (from) query = query.gte('date', from);
     if (to) query = query.lte('date', to);
+    if (resourceNo) query = query.eq('resource_no', resourceNo); // Filter by resource
 
     const { data: entries, error } = await query.range(offset, offset + limit - 1);
 
@@ -91,11 +94,11 @@ export async function GET(
     });
 
   } catch (error) {
-    console.error('❌ Fetch time entries error:', error);
+    logger.error('Fetch time entries error', { error, tenantSlug: (await params).tenant });
 	const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    return NextResponse.json({ 
+    return NextResponse.json({
       error: 'Failed to fetch time entries',
-      details: errorMessage 
+      details: errorMessage
     }, { status: 500 });
   }
 }
@@ -109,12 +112,12 @@ export async function POST(
     const { tenant: tenantSlug } = await params;
     const rawData = await request.json();
 
-    console.log('🔵 ===== CREATE TIME ENTRY =====');
-    console.log('🔍 Raw input:', rawData);
+    logger.info('Create time entry request', { tenant: tenantSlug });
+    logger.debug('Raw input data', { rawData });
 
     // Validate input
     const validatedData = timeEntrySchema.parse(rawData);
-    console.log('✅ Validated data:', validatedData);
+    logger.debug('Input validated', { validatedData });
 
     // Get tenant
     const { data: tenant, error: tenantError } = await supabaseAdmin
@@ -154,20 +157,21 @@ export async function POST(
         const decodedToken = JSON.parse(Buffer.from(token, 'base64').toString());
         resourceNo = decodedToken.resourceNo || 'R0010';
         jobJournalBatch = decodedToken.jobJournalBatch;
-        console.log('📋 Token decoded - resource:', resourceNo, 'batch:', jobJournalBatch || '❌ NOT CONFIGURED');
+        logger.debug('Token decoded', { resourceNo, jobJournalBatch: jobJournalBatch || 'NOT_CONFIGURED' });
       } catch (e) {
-        console.log('Could not decode token, using fallback resource');
+        logger.warn('Could not decode token, using fallback resource', { error: e });
       }
     }
 
     // ❌ STRICT: Fail if batch is not configured
     if (!jobJournalBatch) {
+      logger.error('Batch not configured for resource', { resourceNo });
       return NextResponse.json({
         error: `Resource ${resourceNo} does not have a jobJournalBatch configured in Business Central. Please configure the batch name for this resource before creating time entries.`
       }, { status: 400 });
     }
 
-    console.log('✅ Using batch:', jobJournalBatch);
+    logger.info('Using configured batch', { batch: jobJournalBatch, resourceNo });
 
     // 🔍 Check for overlapping entries (same user, same day)
     const { data: existingEntries } = await supabaseAdmin
@@ -224,25 +228,26 @@ export async function POST(
 
     if (createError) throw createError;
 
-    console.log('✅ Entry created:', createdEntry.id);
+    logger.info('Time entry created successfully', { entryId: createdEntry.id, resourceNo, batch: jobJournalBatch });
 
     return NextResponse.json({
       entry: createdEntry
     });
 
   } catch (error) {
-    console.error('❌ Create time entry error:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     if (error instanceof z.ZodError) {
-	  return NextResponse.json({ 
+      logger.warn('Time entry validation failed', { issues: error.issues });
+	  return NextResponse.json({
 		error: 'Validation failed',
-		details: error.issues  // ✅ CORRECTO
+		details: error.issues
 	  }, { status: 400 });
 	}
 
-    return NextResponse.json({ 
+    logger.error('Create time entry error', { error });
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({
       error: 'Failed to create time entry',
-      details: errorMessage 
+      details: errorMessage
     }, { status: 500 });
   }
 }
@@ -252,10 +257,11 @@ export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ tenant: string }> }
 ) {
+  const { tenant: tenantSlug } = await params;
+  const url = new URL(request.url);
+  const entryId = url.searchParams.get('id') || url.pathname.split('/').pop();
+
   try {
-    const { tenant: tenantSlug } = await params;
-    const url = new URL(request.url);
-    const entryId = url.searchParams.get('id') || url.pathname.split('/').pop();
     const updateData = await request.json();
 
     if (!entryId) {
@@ -265,7 +271,7 @@ export async function PATCH(
     // Verificar si la entry es editable
     const { data: existingEntry, error: fetchError } = await supabaseAdmin
       .from('time_entries')
-      .select('id, bc_sync_status, is_editable, company_id')
+      .select('id, bc_sync_status, is_editable, company_id, bc_batch_name, bc_journal_id')
       .eq('id', entryId)
       .single();
 
@@ -290,18 +296,42 @@ export async function PATCH(
         return obj;
       }, {} as any);
 
+    // Determine new sync status after edit
+    let newSyncStatus: string;
+    logger.debug('Update time entry - current status', { entryId, currentStatus: existingEntry.bc_sync_status });
+
+    if (existingEntry.bc_sync_status === 'synced') {
+      // If was synced, mark as not_synced (needs re-sync)
+      newSyncStatus = 'not_synced';
+    } else if (existingEntry.bc_sync_status === 'not_synced' || existingEntry.bc_sync_status === 'error') {
+      // Keep valid statuses
+      newSyncStatus = existingEntry.bc_sync_status;
+    } else {
+      // Convert any legacy/invalid status to not_synced
+      logger.warn('Legacy status detected, converting to not_synced', { entryId, legacyStatus: existingEntry.bc_sync_status });
+      newSyncStatus = 'not_synced';
+    }
+
+    logger.info('Updating time entry', { entryId, newStatus: newSyncStatus, updates: Object.keys(filteredData) });
+
     // Actualizar entry
     const { data: updatedEntry, error } = await supabaseAdmin
       .from('time_entries')
       .update({
         ...filteredData,
         last_modified_at: new Date().toISOString(),
-        // Si ya estaba sincronizada, marcar como no sincronizada para que se vuelva a sincronizar
-        ...(existingEntry.bc_sync_status === 'synced' && { bc_sync_status: 'not_synced' })
+        bc_sync_status: newSyncStatus  // Always set explicitly to a valid status
       })
       .eq('id', entryId)
       .select()
       .single();
+
+    if (error) {
+      logger.error('Supabase update error', { error, entryId });
+      throw error;
+    }
+
+    logger.info('Time entry updated successfully', { entryId, finalStatus: updatedEntry?.bc_sync_status });
 
     if (error) throw error;
 
@@ -310,11 +340,11 @@ export async function PATCH(
     });
 
   } catch (error) {
-    console.error('❌ Update time entry error:', error);
+    logger.error('Update time entry error', { error, entryId });
 	const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    return NextResponse.json({ 
+    return NextResponse.json({
       error: 'Failed to update time entry',
-      details: errorMessage 
+      details: errorMessage
     }, { status: 500 });
   }
 }
@@ -324,10 +354,11 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ tenant: string }> }
 ) {
+  const { tenant: tenantSlug } = await params;
+  const url = new URL(request.url);
+  const entryId = url.searchParams.get('id') || url.pathname.split('/').pop();
+
   try {
-    const { tenant: tenantSlug } = await params;
-    const url = new URL(request.url);
-    const entryId = url.searchParams.get('id') || url.pathname.split('/').pop();
 
     if (!entryId) {
       return NextResponse.json({ error: 'Entry ID required' }, { status: 400 });
@@ -360,17 +391,19 @@ export async function DELETE(
 
     if (error) throw error;
 
+    logger.info('Time entry deleted successfully', { entryId });
+
     return NextResponse.json({
       success: true,
       message: 'Time entry deleted successfully'
     });
 
   } catch (error) {
-    console.error('❌ Delete time entry error:', error);
+    logger.error('Delete time entry error', { error, entryId });
 	const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    return NextResponse.json({ 
+    return NextResponse.json({
       error: 'Failed to delete time entry',
-      details: errorMessage 
+      details: errorMessage
     }, { status: 500 });
   }
 }
