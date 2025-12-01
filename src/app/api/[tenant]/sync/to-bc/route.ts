@@ -213,8 +213,8 @@ export async function POST(
           });
         }
 
-        // ✅ Update local status
-        await supabaseAdmin
+        // ✅ Update local status - CRITICAL: Update immediately after BC success to prevent duplicates
+        const { error: updateError, data: updatedData } = await supabaseAdmin
           .from('time_entries')
           .update({
             bc_sync_status: 'synced',
@@ -223,7 +223,24 @@ export async function POST(
             bc_last_sync_at: new Date().toISOString(),
             is_editable: true // Still editable
           })
-          .eq('id', entry.id);
+          .eq('id', entry.id)
+          .select();
+
+        logger.debug('Supabase update result', {
+          entryId: entry.id,
+          hasError: !!updateError,
+          error: updateError,
+          updatedCount: updatedData?.length || 0
+        });
+
+        if (updateError) {
+          logger.error('CRITICAL: Failed to update entry status after BC sync', {
+            entryId: entry.id,
+            journalId: bcJournalLine.id,
+            error: updateError
+          });
+          throw new Error(`Failed to update entry status: ${updateError.message}`);
+        }
 
         // Track batch usage
         if (!batchesUsed[batchName]) {
@@ -233,7 +250,13 @@ export async function POST(
         batchesUsed[batchName].hours += parseFloat(entry.hours);
 
         syncedCount++;
-        logger.info('Entry synced successfully to BC', { entryId: entry.id, batch: batchName, journalId: bcJournalLine.id });
+        logger.info('✅ Entry synced successfully to BC', {
+          entryId: entry.id,
+          batch: batchName,
+          journalId: bcJournalLine.id,
+          lineNo: bcJournalLine.lineNo,
+          updatedInDb: true
+        });
 
       } catch (error) {
         logger.error('Failed to sync entry to BC', { entryId: entry.id, error });

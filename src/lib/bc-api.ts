@@ -247,15 +247,99 @@ export class BusinessCentralClient {
   async updateJobJournalLine(journalLine: any): Promise<any> {
     try {
       // 📝 Update existing Job Journal Line (editable)
-      const { id, ...updateData } = journalLine;
-      const endpoint = `/companies(${this.companyId})/jobJournalLines(${id})`;
+      // BC requires composite keys for PATCH operations
+      const { id, journalTemplateName, journalBatchName, lineNo, ...updateData } = journalLine;
+
+      let endpoint;
+      let finalLineNo = lineNo;
+      let etag: string | undefined;
+
+      // If we don't have lineNo, fetch it from BC first using filter (systemId doesn't work in URL for PATCH)
+      if (journalTemplateName && journalBatchName && !lineNo && id) {
+        console.log('🔍 Fetching lineNo and ETag from BC for journal line:', id);
+
+        // Use filter to find the line by systemId
+        const filterEndpoint = `/companies(${this.companyId})/jobJournalLines?$filter=id eq ${id}&$select=lineNo,journalTemplateName,journalBatchName`;
+        const result = await this.callBCApi(filterEndpoint);
+
+        if (result.value && result.value.length > 0) {
+          finalLineNo = result.value[0].lineNo;
+          etag = result.value[0]['@odata.etag']; // Capture ETag for concurrency control
+          console.log('✅ Got lineNo from BC:', finalLineNo, 'ETag:', etag ? 'present' : 'missing');
+        } else {
+          console.error('❌ Could not find journal line in BC with id:', id);
+          throw new Error(`Journal line not found in BC: ${id}`);
+        }
+      }
+
+      // Use composite keys if available
+      if (journalTemplateName && journalBatchName && finalLineNo) {
+        endpoint = `/companies(${this.companyId})/jobJournalLines(journalTemplateName='${journalTemplateName}',journalBatchName='${journalBatchName}',lineNo=${finalLineNo})`;
+      } else {
+        // Fallback to systemId (may not work with all BC versions)
+        endpoint = `/companies(${this.companyId})/jobJournalLines(${id})`;
+      }
+
+      // Prepare headers with ETag if available
+      const headers: any = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      };
+
+      if (etag) {
+        headers['If-Match'] = etag; // Required for concurrency control
+        console.log('📌 Using ETag for PATCH:', etag);
+      }
+
       const data = await this.callBCApi(endpoint, {
         method: 'PATCH',
-        body: JSON.stringify(updateData)
+        body: JSON.stringify(updateData),
+        headers
       });
       return data;
     } catch (error) {
       console.error('BC Update Job Journal Line error:', error);
+      throw error;
+    }
+  }
+
+  async deleteJobJournalLine(journalId: string, compositeKeys?: { journalTemplateName: string; journalBatchName: string; lineNo: number }): Promise<void> {
+    try {
+      // 🗑️ Delete Job Journal Line
+      // BC requires composite keys for DELETE operations
+      let endpoint;
+      let finalCompositeKeys = compositeKeys;
+
+      // If we don't have composite keys, fetch them from BC first
+      if (!compositeKeys && journalId) {
+        console.log('🔍 Fetching composite keys for deletion:', journalId);
+        const filterEndpoint = `/companies(${this.companyId})/jobJournalLines?$filter=id eq ${journalId}&$select=lineNo,journalTemplateName,journalBatchName`;
+        const result = await this.callBCApi(filterEndpoint);
+
+        if (result.value && result.value.length > 0) {
+          const line = result.value[0];
+          finalCompositeKeys = {
+            journalTemplateName: line.journalTemplateName,
+            journalBatchName: line.journalBatchName,
+            lineNo: line.lineNo
+          };
+          console.log('✅ Got composite keys for deletion');
+        }
+      }
+
+      if (finalCompositeKeys) {
+        endpoint = `/companies(${this.companyId})/jobJournalLines(journalTemplateName='${finalCompositeKeys.journalTemplateName}',journalBatchName='${finalCompositeKeys.journalBatchName}',lineNo=${finalCompositeKeys.lineNo})`;
+      } else {
+        // Fallback to systemId (may not work with all BC versions)
+        console.warn('⚠️  Using systemId fallback for DELETE - this may fail');
+        endpoint = `/companies(${this.companyId})/jobJournalLines(${journalId})`;
+      }
+
+      await this.callBCApi(endpoint, {
+        method: 'DELETE'
+      });
+    } catch (error) {
+      console.error('BC Delete Job Journal Line error:', error);
       throw error;
     }
   }
@@ -306,6 +390,50 @@ export class BusinessCentralClient {
     } catch (error) {
       console.error('BC Time Entries error:', error);
       return [];
+    }
+  }
+
+  async getJobJournalLineStatus(journalId: string): Promise<{ approvalStatus?: string; comments?: string } | null> {
+    try {
+      // Get specific Job Journal Line by systemId
+      const endpoint = `/companies(${this.companyId})/jobJournalLines(${journalId})`;
+      const data = await this.callBCApi(endpoint);
+
+      return {
+        approvalStatus: data.approvalStatus || 'pending',
+        comments: data.comments || ''
+      };
+    } catch (error) {
+      console.error('BC Get Job Journal Line Status error:', error);
+      return null;
+    }
+  }
+
+  async getJobJournalLinesStatus(journalIds: string[]): Promise<Map<string, { approvalStatus: string; comments: string }>> {
+    const results = new Map<string, { approvalStatus: string; comments: string }>();
+
+    if (journalIds.length === 0) return results;
+
+    try {
+      // Build filter for multiple IDs: id eq 'xxx' or id eq 'yyy'
+      const filter = journalIds.map(id => `id eq ${id}`).join(' or ');
+      const endpoint = `/companies(${this.companyId})/jobJournalLines?$filter=${filter}&$select=id,approvalStatus,comments`;
+
+      const data = await this.callBCApi(endpoint);
+
+      if (data.value && Array.isArray(data.value)) {
+        data.value.forEach((line: any) => {
+          results.set(line.id, {
+            approvalStatus: line.approvalStatus || 'pending',
+            comments: line.comments || ''
+          });
+        });
+      }
+
+      return results;
+    } catch (error) {
+      console.error('BC Get Job Journal Lines Status error:', error);
+      return results;
     }
   }
 }

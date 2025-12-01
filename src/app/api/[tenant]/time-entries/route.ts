@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { z } from 'zod';
 import { logger } from '@/lib/logger';
+import { BusinessCentralClient } from '@/lib/bc-api';
 
 /**
  * Sync Status States:
@@ -70,6 +71,8 @@ export async function GET(
         bc_journal_id,
         bc_batch_name,
         bc_ledger_id,
+        approval_status,
+        bc_comments,
         last_modified_at,
         bc_last_sync_at,
         is_editable,
@@ -269,15 +272,25 @@ export async function PATCH(
     }
 
     // Verificar si la entry es editable
+    logger.debug('Fetching time entry for update', { entryId });
+
     const { data: existingEntry, error: fetchError } = await supabaseAdmin
       .from('time_entries')
-      .select('id, bc_sync_status, is_editable, company_id, bc_batch_name, bc_journal_id')
+      .select('id, bc_sync_status, is_editable, company_id, bc_batch_name, bc_journal_id, approval_status, bc_job_id, bc_task_id, date, resource_no')
       .eq('id', entryId)
       .single();
 
     if (fetchError || !existingEntry) {
+      logger.error('Time entry not found', { entryId, fetchError });
       return NextResponse.json({ error: 'Time entry not found' }, { status: 404 });
     }
+
+    logger.debug('Time entry found', {
+      entryId,
+      bc_sync_status: existingEntry.bc_sync_status,
+      approval_status: existingEntry.approval_status,
+      is_editable: existingEntry.is_editable
+    });
 
     // No permitir edición si no es editable
     // Status: 'not_synced', 'synced', 'error'
@@ -313,6 +326,92 @@ export async function PATCH(
     }
 
     logger.info('Updating time entry', { entryId, newStatus: newSyncStatus, updates: Object.keys(filteredData) });
+
+    // 🔄 If entry is synced and rejected, update BC first and reset approval status
+    const isRejectedEntry = existingEntry.bc_sync_status === 'synced' &&
+                            existingEntry.approval_status === 'rejected';
+
+    if (isRejectedEntry && existingEntry.bc_journal_id) {
+      logger.info('Entry is rejected, updating BC Job Journal Line', {
+        entryId,
+        journalId: existingEntry.bc_journal_id
+      });
+
+      try {
+        // Get company and initialize BC API
+        const { data: company } = await supabaseAdmin
+          .from('companies')
+          .select('*')
+          .eq('id', existingEntry.company_id)
+          .single();
+
+        if (!company) {
+          throw new Error('Company not found');
+        }
+
+        const { data: tenant } = await supabaseAdmin
+          .from('tenants')
+          .select('*')
+          .eq('id', company.tenant_id)
+          .single();
+
+        if (!tenant) {
+          throw new Error('Tenant not found');
+        }
+
+        const bcApi = new BusinessCentralClient(tenant, company);
+
+        // Prepare BC update data
+        // Note: lineNo and journalTemplateName will be fetched by updateJobJournalLine if needed
+        const bcUpdateData: any = {
+          id: existingEntry.bc_journal_id,
+          journalTemplateName: 'PROJECT', // Will be used to fetch lineNo if not in DB
+          journalBatchName: existingEntry.bc_batch_name
+        };
+
+        // Map fields to BC format
+        if (filteredData.hours !== undefined) {
+          bcUpdateData.quantity = filteredData.hours;
+        }
+        if (filteredData.description !== undefined) {
+          bcUpdateData.description = filteredData.description;
+        }
+        if (filteredData.bc_job_id !== undefined) {
+          bcUpdateData.jobNo = filteredData.bc_job_id;
+        }
+        if (filteredData.bc_task_id !== undefined) {
+          bcUpdateData.jobTaskNo = filteredData.bc_task_id;
+        }
+
+        // Reset approval status to pending in BC
+        bcUpdateData.approvalStatus = 'pending';
+        bcUpdateData.comments = ''; // Clear comments
+
+        // Update in BC
+        await bcApi.updateJobJournalLine(bcUpdateData);
+
+        logger.info('BC Job Journal Line updated successfully', {
+          entryId,
+          journalId: existingEntry.bc_journal_id
+        });
+
+      } catch (bcError) {
+        logger.error('Failed to update BC Job Journal Line', {
+          error: bcError,
+          entryId,
+          journalId: existingEntry.bc_journal_id
+        });
+        // Don't fail the whole operation, but log the error
+        // The entry will be marked as not_synced anyway
+      }
+    }
+
+    // Reset approval status to pending for rejected entries (whether BC update succeeded or not)
+    if (isRejectedEntry) {
+      filteredData.approval_status = 'pending';
+      filteredData.bc_comments = null;
+      logger.info('Resetting approval status to pending for rejected entry', { entryId });
+    }
 
     // Actualizar entry
     const { data: updatedEntry, error } = await supabaseAdmin
@@ -367,7 +466,7 @@ export async function DELETE(
     // 🔍 Verificar si la entry es editable
     const { data: existingEntry, error: fetchError } = await supabaseAdmin
       .from('time_entries')
-      .select('id, bc_sync_status, is_editable')
+      .select('id, bc_sync_status, is_editable, company_id, bc_journal_id, bc_batch_name, approval_status')
       .eq('id', entryId)
       .single();
 
@@ -381,6 +480,59 @@ export async function DELETE(
       return NextResponse.json({
         error: 'Cannot delete entry: not editable'
       }, { status: 400 });
+    }
+
+    // 🔄 If entry is synced and rejected, delete from BC first
+    if (existingEntry.bc_sync_status === 'synced' &&
+        existingEntry.approval_status === 'rejected' &&
+        existingEntry.bc_journal_id) {
+
+      logger.info('Entry is rejected, deleting from BC Job Journal Line', {
+        entryId,
+        journalId: existingEntry.bc_journal_id
+      });
+
+      try {
+        // Get company and initialize BC API
+        const { data: company } = await supabaseAdmin
+          .from('companies')
+          .select('*')
+          .eq('id', existingEntry.company_id)
+          .single();
+
+        if (!company) {
+          throw new Error('Company not found');
+        }
+
+        const { data: tenant } = await supabaseAdmin
+          .from('tenants')
+          .select('*')
+          .eq('id', company.tenant_id)
+          .single();
+
+        if (!tenant) {
+          throw new Error('Tenant not found');
+        }
+
+        const bcApi = new BusinessCentralClient(tenant, company);
+
+        // Delete from BC - deleteJobJournalLine will fetch composite keys if needed
+        await bcApi.deleteJobJournalLine(existingEntry.bc_journal_id);
+
+        logger.info('BC Job Journal Line deleted successfully', {
+          entryId,
+          journalId: existingEntry.bc_journal_id
+        });
+
+      } catch (bcError) {
+        logger.error('Failed to delete BC Job Journal Line', {
+          error: bcError,
+          entryId,
+          journalId: existingEntry.bc_journal_id
+        });
+        // Don't fail the whole operation, but log the error
+        // We'll still delete from local database
+      }
     }
 
     // 🗑️ Eliminar entry
