@@ -163,12 +163,21 @@ export class BusinessCentralClient {
       console.log(`  - resource.JobJournalBatchName: ${resource.JobJournalBatchName}`);
       console.log(`📋 Final jobJournalBatch value: ${jobJournalBatch || 'NOT FOUND'}`);
 
+      // Convert entry mode to lowercase (BC sends "Tracker" or "Timesheet", we need "tracker" or "timesheet")
+      const rawEntryMode = resource.timeEntryMode;
+      const entryMode = rawEntryMode ? rawEntryMode.toLowerCase() : 'tracker';
+
+      console.log(`📋 Time Entry Mode:`);
+      console.log(`  - resource.timeEntryMode (raw): ${rawEntryMode}`);
+      console.log(`  - entryMode (normalized): ${entryMode}`);
+
       return {
         resourceNo: resource.resourceNo,
         displayName: resource.name || resource.displayName,
         webUsername: resource.webUsername,
         isActive: resource.blocked !== true,
-        jobJournalBatch: jobJournalBatch || undefined
+        jobJournalBatch: jobJournalBatch || undefined,
+        entryMode: entryMode
       };
     } catch (error) {
       console.error('BC Auth error:', error);

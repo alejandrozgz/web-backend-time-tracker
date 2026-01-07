@@ -49,6 +49,7 @@ export async function POST(
         resourceNo: 'DEMO001',
         displayName: 'Demo User',
         webUsername: 'demo',
+        entryMode: 'tracker',
         exp: Date.now() + (24 * 60 * 60 * 1000) // 24 hours
       })).toString('base64');
 
@@ -57,7 +58,8 @@ export async function POST(
         user: {
           id: 'DEMO001',
           resourceNo: 'DEMO001',
-          displayName: 'Demo User'
+          displayName: 'Demo User',
+          entryMode: 'tracker'
         },
         tenant: {
           id: tenant.id,
@@ -100,7 +102,7 @@ export async function POST(
         // Note: User activity is tracked via time_entries.resource_no and time_entries.last_modified_at
         // No separate users table needed
 
-        // Create JWT token with BC resource info including jobJournalBatch
+        // Create JWT token with BC resource info including jobJournalBatch and entryMode
         const tokenPayload = {
           tenantId: tenant.id,
           companyId: company.id,
@@ -108,6 +110,7 @@ export async function POST(
           displayName: bcResource.displayName,
           webUsername: bcResource.webUsername,
           jobJournalBatch: bcResource.jobJournalBatch,
+          entryMode: bcResource.entryMode || 'tracker',
           exp: Date.now() + (24 * 60 * 60 * 1000) // 24 hours
         };
 
@@ -120,7 +123,8 @@ export async function POST(
           user: {
             id: bcResource.resourceNo,
             resourceNo: bcResource.resourceNo,
-            displayName: bcResource.displayName
+            displayName: bcResource.displayName,
+            entryMode: bcResource.entryMode
           },
           tenant: {
             id: tenant.id,

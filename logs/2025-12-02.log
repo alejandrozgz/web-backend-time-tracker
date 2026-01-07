@@ -1,0 +1,8 @@
+[2025-12-02T09:31:24.759Z] [INFO] Refresh status from BC started | {"tenantSlug":"empresa-demo","companyId":"b19e3410-5318-4dfc-8422-8c1ee47d957c"}
+[2025-12-02T09:31:24.761Z] [INFO] Refresh status requested by user | {"resourceNo":"R0010"}
+[2025-12-02T09:31:25.220Z] [INFO] Synced entries found for refresh | {"count":5,"companyId":"b19e3410-5318-4dfc-8422-8c1ee47d957c"}
+[2025-12-02T09:31:26.081Z] [INFO] Refresh status completed | {"checked":5,"updated":5,"durationMs":1322}
+[2025-12-02T09:31:26.668Z] [INFO] Refresh status from BC started | {"tenantSlug":"empresa-demo","companyId":"b19e3410-5318-4dfc-8422-8c1ee47d957c"}
+[2025-12-02T09:31:26.669Z] [INFO] Refresh status requested by user | {"resourceNo":"R0010"}
+[2025-12-02T09:31:26.911Z] [INFO] Synced entries found for refresh | {"count":5,"companyId":"b19e3410-5318-4dfc-8422-8c1ee47d957c"}
+[2025-12-02T09:31:27.441Z] [INFO] Refresh status completed | {"checked":5,"updated":5,"durationMs":774}

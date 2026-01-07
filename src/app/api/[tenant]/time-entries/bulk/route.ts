@@ -1,0 +1,168 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { supabaseAdmin } from '@/lib/supabase';
+import { z } from 'zod';
+import { logger } from '@/lib/logger';
+
+const bulkEntrySchema = z.object({
+  bc_job_id: z.string().min(1),
+  bc_task_id: z.string().min(1),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  hours: z.number().min(0.01).max(24),
+  description: z.string().min(1)
+});
+
+const bulkSaveSchema = z.object({
+  companyId: z.string().uuid(),
+  entries: z.array(bulkEntrySchema).min(1).max(100)
+});
+
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ tenant: string }> }
+) {
+  try {
+    const { tenant: tenantSlug } = await params;
+    const rawData = await request.json();
+
+    logger.info('Bulk save time entries', { tenant: tenantSlug });
+
+    const validatedData = bulkSaveSchema.parse(rawData);
+
+    // Get tenant
+    const { data: tenant, error: tenantError } = await supabaseAdmin
+      .from('tenants')
+      .select('*')
+      .eq('slug', tenantSlug)
+      .single();
+
+    if (tenantError || !tenant) {
+      throw new Error('Tenant not found');
+    }
+
+    // Get company
+    const { data: company, error: companyError } = await supabaseAdmin
+      .from('companies')
+      .select('*')
+      .eq('id', validatedData.companyId)
+      .single();
+
+    if (companyError || !company) {
+      throw new Error('Company not found');
+    }
+
+    // Extract resource from JWT
+    const authHeader = request.headers.get('authorization');
+    let resourceNo = 'R0010';
+    let jobJournalBatch: string | undefined;
+
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      try {
+        const token = authHeader.substring(7);
+        const decodedToken = JSON.parse(Buffer.from(token, 'base64').toString());
+        resourceNo = decodedToken.resourceNo || 'R0010';
+        jobJournalBatch = decodedToken.jobJournalBatch;
+      } catch (e) {
+        logger.warn('Could not decode token', { error: e });
+      }
+    }
+
+    // Require batch configuration
+    if (!jobJournalBatch) {
+      return NextResponse.json({
+        error: `Resource ${resourceNo} does not have a jobJournalBatch configured`
+      }, { status: 400 });
+    }
+
+    const results = {
+      created: 0,
+      updated: 0,
+      failed: 0,
+      errors: [] as Array<{ entry: any; error: string }>
+    };
+
+    // Process each entry
+    for (const entry of validatedData.entries) {
+      try {
+        // Check if entry exists
+        const { data: existing } = await supabaseAdmin
+          .from('time_entries')
+          .select('id, hours, is_editable')
+          .eq('company_id', validatedData.companyId)
+          .eq('resource_no', resourceNo)
+          .eq('bc_job_id', entry.bc_job_id)
+          .eq('bc_task_id', entry.bc_task_id)
+          .eq('date', entry.date)
+          .maybeSingle();
+
+        if (existing) {
+          // Update existing entry if editable
+          if (!existing.is_editable) {
+            throw new Error('Entry is not editable');
+          }
+
+          const { error: updateError } = await supabaseAdmin
+            .from('time_entries')
+            .update({
+              hours: entry.hours,
+              description: entry.description,
+              last_modified_at: new Date().toISOString(),
+              bc_sync_status: 'not_synced'
+            })
+            .eq('id', existing.id);
+
+          if (updateError) throw updateError;
+          results.updated++;
+        } else {
+          // Create new entry
+          const { error: createError } = await supabaseAdmin
+            .from('time_entries')
+            .insert({
+              tenant_id: tenant.id,
+              company_id: validatedData.companyId,
+              bc_job_id: entry.bc_job_id,
+              bc_task_id: entry.bc_task_id,
+              date: entry.date,
+              hours: entry.hours,
+              description: entry.description,
+              resource_no: resourceNo,
+              bc_batch_name: jobJournalBatch,
+              bc_sync_status: 'not_synced',
+              is_editable: true,
+              created_at: new Date().toISOString(),
+              last_modified_at: new Date().toISOString()
+            });
+
+          if (createError) throw createError;
+          results.created++;
+        }
+      } catch (entryError) {
+        results.failed++;
+        const errorMessage = entryError instanceof Error ? entryError.message : 'Unknown error';
+        results.errors.push({ entry, error: errorMessage });
+        logger.error('Failed to process entry', { entry, error: entryError });
+      }
+    }
+
+    logger.info('Bulk save completed', results);
+
+    return NextResponse.json({
+      success: results.failed === 0,
+      ...results
+    });
+
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({
+        error: 'Validation failed',
+        details: error.issues
+      }, { status: 400 });
+    }
+
+    logger.error('Bulk save error', { error });
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({
+      error: 'Failed to save time entries',
+      details: errorMessage
+    }, { status: 500 });
+  }
+}
