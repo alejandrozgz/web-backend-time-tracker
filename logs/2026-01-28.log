@@ -72,3 +72,128 @@
 [2026-01-28T14:08:55.844Z] [INFO] ✅ Entry synced successfully to BC | {"entryId":"870d65db-261a-49a9-9f19-2207ea4df2cb","batch":"TT-ALEXA","journalId":"f8e6bddb-52fc-f011-8405-7ced8d3a6b8c","lineNo":190000,"updatedInDb":true}
 [2026-01-28T14:08:55.916Z] [INFO] Batch record created | {"batchName":"TT-ALEXA","entries":7,"hours":"56.00"}
 [2026-01-28T14:08:55.999Z] [INFO] Sync to BC completed | {"synced":7,"failed":0,"batches":"TT-ALEXA","durationMs":2143}
+[2026-01-28T15:53:12.594Z] [INFO] Sync to BC started | {"tenantSlug":"silki","companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f"}
+[2026-01-28T15:53:12.596Z] [INFO] Sync requested by user | {"resourceNo":"R0110"}
+[2026-01-28T15:53:12.826Z] [INFO] Pending entries found | {"count":3,"companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f","resourceNo":"R0110"}
+[2026-01-28T15:53:12.827Z] [DEBUG] Syncing entry to BC | {"entryId":"6b0db4bf-a29f-4e07-9e11-98874877146b","batch":"TT-MARWA","description":"Timesheet entry for 2026-01-26"}
+[2026-01-28T15:53:12.828Z] [DEBUG] Updating existing BC journal line | {"entryId":"6b0db4bf-a29f-4e07-9e11-98874877146b","journalId":"41355ef2-5dfc-f011-8405-6045bdd2d28b"}
+[2026-01-28T15:53:13.485Z] [ERROR] Failed to sync entry to BC | {"entryId":"6b0db4bf-a29f-4e07-9e11-98874877146b","error":{}}
+[2026-01-28T15:53:13.747Z] [DEBUG] Syncing entry to BC | {"entryId":"b14b5b7b-0d7a-46d8-88af-bcc221fcf48b","batch":"TT-MARWA","description":"Timesheet entry for 2026-01-27"}
+[2026-01-28T15:53:13.748Z] [DEBUG] Updating existing BC journal line | {"entryId":"b14b5b7b-0d7a-46d8-88af-bcc221fcf48b","journalId":"45355ef2-5dfc-f011-8405-6045bdd2d28b"}
+[2026-01-28T15:53:13.906Z] [ERROR] Failed to sync entry to BC | {"entryId":"b14b5b7b-0d7a-46d8-88af-bcc221fcf48b","error":{}}
+[2026-01-28T15:53:14.079Z] [DEBUG] Syncing entry to BC | {"entryId":"b7c9a181-5fb6-4bfa-bd0c-410ddee67314","batch":"TT-MARWA","description":"Timesheet entry for 2026-01-28"}
+[2026-01-28T15:53:14.080Z] [DEBUG] Updating existing BC journal line | {"entryId":"b7c9a181-5fb6-4bfa-bd0c-410ddee67314","journalId":"79355ef2-5dfc-f011-8405-6045bdd2d28b"}
+[2026-01-28T15:53:14.214Z] [ERROR] Failed to sync entry to BC | {"entryId":"b7c9a181-5fb6-4bfa-bd0c-410ddee67314","error":{}}
+[2026-01-28T15:53:14.484Z] [INFO] Sync to BC completed | {"synced":0,"failed":3,"batches":"","durationMs":1814}
+[2026-01-28T15:53:51.418Z] [INFO] Sync to BC started | {"tenantSlug":"silki","companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f"}
+[2026-01-28T15:53:51.419Z] [INFO] Sync requested by user | {"resourceNo":"R0110"}
+[2026-01-28T15:53:51.633Z] [INFO] Pending entries found | {"count":3,"companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f","resourceNo":"R0110"}
+[2026-01-28T15:53:51.633Z] [DEBUG] Syncing entry to BC | {"entryId":"6b0db4bf-a29f-4e07-9e11-98874877146b","batch":"TT-MARWA","description":"Timesheet entry for 2026-01-26"}
+[2026-01-28T15:53:51.635Z] [DEBUG] Creating new BC journal line | {"entryId":"6b0db4bf-a29f-4e07-9e11-98874877146b"}
+[2026-01-28T15:53:52.388Z] [DEBUG] Supabase update result | {"entryId":"6b0db4bf-a29f-4e07-9e11-98874877146b","hasError":false,"error":null,"updatedCount":1}
+[2026-01-28T15:53:52.389Z] [INFO] ✅ Entry synced successfully to BC | {"entryId":"6b0db4bf-a29f-4e07-9e11-98874877146b","batch":"TT-MARWA","journalId":"b294a788-61fc-f011-8405-6045bdd2d28b","lineNo":10000,"updatedInDb":true}
+[2026-01-28T15:53:52.390Z] [DEBUG] Syncing entry to BC | {"entryId":"b14b5b7b-0d7a-46d8-88af-bcc221fcf48b","batch":"TT-MARWA","description":"Timesheet entry for 2026-01-27"}
+[2026-01-28T15:53:52.390Z] [DEBUG] Creating new BC journal line | {"entryId":"b14b5b7b-0d7a-46d8-88af-bcc221fcf48b"}
+[2026-01-28T15:53:52.665Z] [DEBUG] Supabase update result | {"entryId":"b14b5b7b-0d7a-46d8-88af-bcc221fcf48b","hasError":false,"error":null,"updatedCount":1}
+[2026-01-28T15:53:52.666Z] [INFO] ✅ Entry synced successfully to BC | {"entryId":"b14b5b7b-0d7a-46d8-88af-bcc221fcf48b","batch":"TT-MARWA","journalId":"c694a788-61fc-f011-8405-6045bdd2d28b","lineNo":20000,"updatedInDb":true}
+[2026-01-28T15:53:52.667Z] [DEBUG] Syncing entry to BC | {"entryId":"b7c9a181-5fb6-4bfa-bd0c-410ddee67314","batch":"TT-MARWA","description":"Timesheet entry for 2026-01-28"}
+[2026-01-28T15:53:52.668Z] [DEBUG] Creating new BC journal line | {"entryId":"b7c9a181-5fb6-4bfa-bd0c-410ddee67314"}
+[2026-01-28T15:53:52.853Z] [DEBUG] Supabase update result | {"entryId":"b7c9a181-5fb6-4bfa-bd0c-410ddee67314","hasError":false,"error":null,"updatedCount":1}
+[2026-01-28T15:53:52.853Z] [INFO] ✅ Entry synced successfully to BC | {"entryId":"b7c9a181-5fb6-4bfa-bd0c-410ddee67314","batch":"TT-MARWA","journalId":"e194a788-61fc-f011-8405-6045bdd2d28b","lineNo":30000,"updatedInDb":true}
+[2026-01-28T15:53:52.938Z] [INFO] Batch record created | {"batchName":"TT-MARWA","entries":3,"hours":"24.00"}
+[2026-01-28T15:53:53.017Z] [INFO] Sync to BC completed | {"synced":3,"failed":0,"batches":"TT-MARWA","durationMs":1436}
+[2026-01-28T15:55:18.428Z] [INFO] Bulk save time entries | {"tenant":"silki","rawData":{"companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f","entries":[{"bc_job_id":"CON-26-00003","bc_task_id":"1001","date":"2026-01-24","hours":0,"description":"Timesheet entry for 2026-01-24"}]}}
+[2026-01-28T15:55:18.789Z] [INFO] Bulk save completed | {"created":0,"updated":0,"deleted":1,"failed":0,"errors":[]}
+[2026-01-28T15:55:38.358Z] [INFO] Bulk save time entries | {"tenant":"silki","rawData":{"companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f","entries":[{"bc_job_id":"CON-26-00003","bc_task_id":"1001","date":"2026-01-26","hours":16,"description":"Timesheet entry for 2026-01-26"}]}}
+[2026-01-28T15:55:38.671Z] [INFO] Bulk save completed | {"created":0,"updated":1,"deleted":0,"failed":0,"errors":[]}
+[2026-01-28T15:56:26.817Z] [INFO] Bulk save time entries | {"tenant":"silki","rawData":{"companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f","entries":[{"bc_job_id":"CON-26-00003","bc_task_id":"1001","date":"2026-01-26","hours":8,"description":"Timesheet entry for 2026-01-26"}]}}
+[2026-01-28T15:56:27.185Z] [INFO] Bulk save completed | {"created":0,"updated":1,"deleted":0,"failed":0,"errors":[]}
+[2026-01-28T15:56:31.241Z] [INFO] Bulk save time entries | {"tenant":"silki","rawData":{"companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f","entries":[{"bc_job_id":"INT-TRN-25-00001","bc_task_id":"2211","date":"2026-01-26","hours":8,"description":"Timesheet entry for 2026-01-26"}]}}
+[2026-01-28T15:56:31.536Z] [INFO] Bulk save completed | {"created":1,"updated":0,"deleted":0,"failed":0,"errors":[]}
+[2026-01-28T16:01:29.621Z] [INFO] Bulk save time entries | {"tenant":"silki","rawData":{"companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f","entries":[{"bc_job_id":"INT-TRN-25-00001","bc_task_id":"2211","date":"2026-01-26","hours":0,"description":"Timesheet entry for 2026-01-26"}]}}
+[2026-01-28T16:01:30.183Z] [INFO] Bulk save completed | {"created":0,"updated":0,"deleted":1,"failed":0,"errors":[]}
+[2026-01-28T16:02:07.914Z] [INFO] Bulk save time entries | {"tenant":"silki","rawData":{"companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f","entries":[{"bc_job_id":"CON-26-00003","bc_task_id":"1001","date":"2026-01-27","hours":8,"description":"Timesheet entry for 2026-01-27"},{"bc_job_id":"CON-26-00003","bc_task_id":"1001","date":"2026-01-28","hours":8,"description":"Timesheet entry for 2026-01-28"}]}}
+[2026-01-28T16:02:08.469Z] [INFO] Bulk save completed | {"created":2,"updated":0,"deleted":0,"failed":0,"errors":[]}
+[2026-01-28T16:02:16.150Z] [INFO] Bulk save time entries | {"tenant":"silki","rawData":{"companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f","entries":[{"bc_job_id":"CON-26-00003","bc_task_id":"1001","date":"2026-01-27","hours":8,"description":"Timesheet entry for 2026-01-27"},{"bc_job_id":"CON-26-00003","bc_task_id":"1001","date":"2026-01-28","hours":8,"description":"Timesheet entry for 2026-01-28"}]}}
+[2026-01-28T16:02:16.680Z] [INFO] Bulk save completed | {"created":2,"updated":0,"deleted":0,"failed":0,"errors":[]}
+[2026-01-28T16:10:09.077Z] [INFO] Bulk save time entries | {"tenant":"silki","rawData":{"companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f","entries":[{"bc_job_id":"CON-26-00003","bc_task_id":"1001","date":"2026-01-27","hours":8,"description":"Timesheet entry for 2026-01-27"},{"bc_job_id":"CON-26-00003","bc_task_id":"1001","date":"2026-01-28","hours":8,"description":"Timesheet entry for 2026-01-28"}]}}
+[2026-01-28T16:10:09.329Z] [WARN] Duplicate entries found, unifying... | {"count":4,"bc_job_id":"CON-26-00003","bc_task_id":"1001","date":"2026-01-27","resourceNo":"R0100"}
+[2026-01-28T16:10:09.330Z] [INFO] Deduplication analysis | {"total":4,"editable":4,"nonEditable":0,"nonEditableHours":0,"editableHours":32,"totalCurrentHours":32,"requestedHours":8}
+[2026-01-28T16:10:09.331Z] [INFO] Calculated editable hours needed | {"requestedHours":8,"nonEditableHours":0,"newEditableHours":8}
+[2026-01-28T16:10:09.402Z] [INFO] Deleted duplicate editable entry | {"id":"9a7509eb-251b-4701-8303-967d7ec60954"}
+[2026-01-28T16:10:09.492Z] [INFO] Deleted duplicate editable entry | {"id":"ff32154a-037a-42e6-bfb7-f56d5878dc23"}
+[2026-01-28T16:10:09.559Z] [INFO] Deleted duplicate editable entry | {"id":"aa048d58-84da-4b41-b155-5dc2dcec1092"}
+[2026-01-28T16:10:09.628Z] [INFO] Updated editable entry with calculated hours | {"id":"caccc9af-c6f4-4e3f-b89c-fe90542620f1","hours":8}
+[2026-01-28T16:10:09.692Z] [WARN] Duplicate entries found, unifying... | {"count":4,"bc_job_id":"CON-26-00003","bc_task_id":"1001","date":"2026-01-28","resourceNo":"R0100"}
+[2026-01-28T16:10:09.693Z] [INFO] Deduplication analysis | {"total":4,"editable":4,"nonEditable":0,"nonEditableHours":0,"editableHours":32,"totalCurrentHours":32,"requestedHours":8}
+[2026-01-28T16:10:09.695Z] [INFO] Calculated editable hours needed | {"requestedHours":8,"nonEditableHours":0,"newEditableHours":8}
+[2026-01-28T16:10:09.765Z] [INFO] Deleted duplicate editable entry | {"id":"d495cbd5-4c5a-4a45-93a3-36931ff6a506"}
+[2026-01-28T16:10:09.823Z] [INFO] Deleted duplicate editable entry | {"id":"ed6acf1b-70eb-44f9-9e69-183d53a72268"}
+[2026-01-28T16:10:09.887Z] [INFO] Deleted duplicate editable entry | {"id":"51d350d5-0e86-4432-81e2-1a22f3691822"}
+[2026-01-28T16:10:09.951Z] [INFO] Updated editable entry with calculated hours | {"id":"870d65db-261a-49a9-9f19-2207ea4df2cb","hours":8}
+[2026-01-28T16:10:09.951Z] [INFO] Bulk save completed | {"created":0,"updated":2,"deleted":6,"failed":0,"errors":[]}
+[2026-01-28T16:10:50.283Z] [INFO] Sync to BC started | {"tenantSlug":"silki","companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f"}
+[2026-01-28T16:10:50.284Z] [INFO] Sync requested by user | {"resourceNo":"R0100"}
+[2026-01-28T16:10:50.568Z] [INFO] Pending entries found | {"count":3,"companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f","resourceNo":"R0100"}
+[2026-01-28T16:10:50.569Z] [DEBUG] Syncing entry to BC | {"entryId":"26940253-7655-454d-9096-429a63923bf7","batch":"TT-ALEXA","description":"Timesheet entry for 2026-01-26"}
+[2026-01-28T16:10:50.571Z] [DEBUG] Creating new BC journal line | {"entryId":"26940253-7655-454d-9096-429a63923bf7"}
+[2026-01-28T16:10:51.642Z] [DEBUG] Supabase update result | {"entryId":"26940253-7655-454d-9096-429a63923bf7","hasError":false,"error":null,"updatedCount":1}
+[2026-01-28T16:10:51.643Z] [INFO] ✅ Entry synced successfully to BC | {"entryId":"26940253-7655-454d-9096-429a63923bf7","batch":"TT-ALEXA","journalId":"3a14a0e6-63fc-f011-8405-7ced8d3a6b8c","lineNo":200000,"updatedInDb":true}
+[2026-01-28T16:10:51.644Z] [DEBUG] Syncing entry to BC | {"entryId":"caccc9af-c6f4-4e3f-b89c-fe90542620f1","batch":"TT-ALEXA","description":"Timesheet entry for 2026-01-27"}
+[2026-01-28T16:10:51.645Z] [DEBUG] Updating existing BC journal line | {"entryId":"caccc9af-c6f4-4e3f-b89c-fe90542620f1","journalId":"f7e6bddb-52fc-f011-8405-7ced8d3a6b8c"}
+[2026-01-28T16:10:51.987Z] [DEBUG] Supabase update result | {"entryId":"caccc9af-c6f4-4e3f-b89c-fe90542620f1","hasError":false,"error":null,"updatedCount":1}
+[2026-01-28T16:10:51.988Z] [INFO] ✅ Entry synced successfully to BC | {"entryId":"caccc9af-c6f4-4e3f-b89c-fe90542620f1","batch":"TT-ALEXA","journalId":"f7e6bddb-52fc-f011-8405-7ced8d3a6b8c","lineNo":180000,"updatedInDb":true}
+[2026-01-28T16:10:51.989Z] [DEBUG] Syncing entry to BC | {"entryId":"870d65db-261a-49a9-9f19-2207ea4df2cb","batch":"TT-ALEXA","description":"Timesheet entry for 2026-01-28"}
+[2026-01-28T16:10:51.990Z] [DEBUG] Updating existing BC journal line | {"entryId":"870d65db-261a-49a9-9f19-2207ea4df2cb","journalId":"f8e6bddb-52fc-f011-8405-7ced8d3a6b8c"}
+[2026-01-28T16:10:52.266Z] [DEBUG] Supabase update result | {"entryId":"870d65db-261a-49a9-9f19-2207ea4df2cb","hasError":false,"error":null,"updatedCount":1}
+[2026-01-28T16:10:52.267Z] [INFO] ✅ Entry synced successfully to BC | {"entryId":"870d65db-261a-49a9-9f19-2207ea4df2cb","batch":"TT-ALEXA","journalId":"f8e6bddb-52fc-f011-8405-7ced8d3a6b8c","lineNo":190000,"updatedInDb":true}
+[2026-01-28T16:10:52.356Z] [INFO] Batch record created | {"batchName":"TT-ALEXA","entries":3,"hours":"24.00"}
+[2026-01-28T16:10:52.491Z] [INFO] Sync to BC completed | {"synced":3,"failed":0,"batches":"TT-ALEXA","durationMs":1986}
+[2026-01-28T16:12:00.963Z] [INFO] Bulk save time entries | {"tenant":"silki","rawData":{"companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f","entries":[{"bc_job_id":"CON-26-00003","bc_task_id":"1001","date":"2026-01-28","hours":7.5,"description":"Timesheet entry for 2026-01-28"},{"bc_job_id":"CON-26-00003","bc_task_id":"1001","date":"2026-01-27","hours":7.5,"description":"Timesheet entry for 2026-01-27"},{"bc_job_id":"CON-26-00003","bc_task_id":"1001","date":"2026-01-26","hours":7.5,"description":"Timesheet entry for 2026-01-26"}]}}
+[2026-01-28T16:12:01.567Z] [INFO] Bulk save completed | {"created":0,"updated":3,"deleted":0,"failed":0,"errors":[]}
+[2026-01-28T16:12:06.689Z] [INFO] Bulk save time entries | {"tenant":"silki","rawData":{"companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f","entries":[{"bc_job_id":"CON-26-00003","bc_task_id":"1001","date":"2026-01-26","hours":8,"description":"Timesheet entry for 2026-01-26"},{"bc_job_id":"CON-26-00003","bc_task_id":"1001","date":"2026-01-27","hours":8,"description":"Timesheet entry for 2026-01-27"},{"bc_job_id":"CON-26-00003","bc_task_id":"1001","date":"2026-01-28","hours":8,"description":"Timesheet entry for 2026-01-28"}]}}
+[2026-01-28T16:12:07.345Z] [INFO] Bulk save completed | {"created":0,"updated":3,"deleted":0,"failed":0,"errors":[]}
+[2026-01-28T16:12:25.027Z] [INFO] Sync to BC started | {"tenantSlug":"silki","companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f"}
+[2026-01-28T16:12:25.028Z] [INFO] Sync requested by user | {"resourceNo":"R0100"}
+[2026-01-28T16:12:25.160Z] [INFO] Pending entries found | {"count":3,"companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f","resourceNo":"R0100"}
+[2026-01-28T16:12:25.161Z] [DEBUG] Syncing entry to BC | {"entryId":"26940253-7655-454d-9096-429a63923bf7","batch":"TT-ALEXA","description":"Timesheet entry for 2026-01-26"}
+[2026-01-28T16:12:25.163Z] [DEBUG] Updating existing BC journal line | {"entryId":"26940253-7655-454d-9096-429a63923bf7","journalId":"3a14a0e6-63fc-f011-8405-7ced8d3a6b8c"}
+[2026-01-28T16:12:25.558Z] [ERROR] Failed to sync entry to BC | {"entryId":"26940253-7655-454d-9096-429a63923bf7","error":{}}
+[2026-01-28T16:12:25.712Z] [DEBUG] Syncing entry to BC | {"entryId":"caccc9af-c6f4-4e3f-b89c-fe90542620f1","batch":"TT-ALEXA","description":"Timesheet entry for 2026-01-27"}
+[2026-01-28T16:12:25.712Z] [DEBUG] Updating existing BC journal line | {"entryId":"caccc9af-c6f4-4e3f-b89c-fe90542620f1","journalId":"f7e6bddb-52fc-f011-8405-7ced8d3a6b8c"}
+[2026-01-28T16:12:25.867Z] [ERROR] Failed to sync entry to BC | {"entryId":"caccc9af-c6f4-4e3f-b89c-fe90542620f1","error":{}}
+[2026-01-28T16:12:26.019Z] [DEBUG] Syncing entry to BC | {"entryId":"870d65db-261a-49a9-9f19-2207ea4df2cb","batch":"TT-ALEXA","description":"Timesheet entry for 2026-01-28"}
+[2026-01-28T16:12:26.020Z] [DEBUG] Updating existing BC journal line | {"entryId":"870d65db-261a-49a9-9f19-2207ea4df2cb","journalId":"f8e6bddb-52fc-f011-8405-7ced8d3a6b8c"}
+[2026-01-28T16:12:26.180Z] [ERROR] Failed to sync entry to BC | {"entryId":"870d65db-261a-49a9-9f19-2207ea4df2cb","error":{}}
+[2026-01-28T16:12:26.399Z] [INFO] Sync to BC completed | {"synced":0,"failed":3,"batches":"","durationMs":1299}
+[2026-01-28T16:13:26.961Z] [INFO] Sync to BC started | {"tenantSlug":"silki","companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f"}
+[2026-01-28T16:13:26.962Z] [INFO] Sync requested by user | {"resourceNo":"R0100"}
+[2026-01-28T16:13:27.115Z] [INFO] Pending entries found | {"count":3,"companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f","resourceNo":"R0100"}
+[2026-01-28T16:13:27.116Z] [DEBUG] Syncing entry to BC | {"entryId":"26940253-7655-454d-9096-429a63923bf7","batch":"TT-ALEXA","description":"Timesheet entry for 2026-01-26"}
+[2026-01-28T16:13:27.117Z] [DEBUG] Creating new BC journal line | {"entryId":"26940253-7655-454d-9096-429a63923bf7"}
+[2026-01-28T16:13:27.445Z] [DEBUG] Supabase update result | {"entryId":"26940253-7655-454d-9096-429a63923bf7","hasError":false,"error":null,"updatedCount":1}
+[2026-01-28T16:13:27.446Z] [INFO] ✅ Entry synced successfully to BC | {"entryId":"26940253-7655-454d-9096-429a63923bf7","batch":"TT-ALEXA","journalId":"2a812346-64fc-f011-8405-7ced8d3a6b8c","lineNo":180000,"updatedInDb":true}
+[2026-01-28T16:13:27.447Z] [DEBUG] Syncing entry to BC | {"entryId":"caccc9af-c6f4-4e3f-b89c-fe90542620f1","batch":"TT-ALEXA","description":"Timesheet entry for 2026-01-27"}
+[2026-01-28T16:13:27.448Z] [DEBUG] Creating new BC journal line | {"entryId":"caccc9af-c6f4-4e3f-b89c-fe90542620f1"}
+[2026-01-28T16:13:27.622Z] [DEBUG] Supabase update result | {"entryId":"caccc9af-c6f4-4e3f-b89c-fe90542620f1","hasError":false,"error":null,"updatedCount":1}
+[2026-01-28T16:13:27.623Z] [INFO] ✅ Entry synced successfully to BC | {"entryId":"caccc9af-c6f4-4e3f-b89c-fe90542620f1","batch":"TT-ALEXA","journalId":"85812346-64fc-f011-8405-7ced8d3a6b8c","lineNo":190000,"updatedInDb":true}
+[2026-01-28T16:13:27.624Z] [DEBUG] Syncing entry to BC | {"entryId":"870d65db-261a-49a9-9f19-2207ea4df2cb","batch":"TT-ALEXA","description":"Timesheet entry for 2026-01-28"}
+[2026-01-28T16:13:27.625Z] [DEBUG] Creating new BC journal line | {"entryId":"870d65db-261a-49a9-9f19-2207ea4df2cb"}
+[2026-01-28T16:13:27.803Z] [DEBUG] Supabase update result | {"entryId":"870d65db-261a-49a9-9f19-2207ea4df2cb","hasError":false,"error":null,"updatedCount":1}
+[2026-01-28T16:13:27.804Z] [INFO] ✅ Entry synced successfully to BC | {"entryId":"870d65db-261a-49a9-9f19-2207ea4df2cb","batch":"TT-ALEXA","journalId":"e0812346-64fc-f011-8405-7ced8d3a6b8c","lineNo":200000,"updatedInDb":true}
+[2026-01-28T16:13:27.876Z] [INFO] Batch record created | {"batchName":"TT-ALEXA","entries":3,"hours":"24.00"}
+[2026-01-28T16:13:27.949Z] [INFO] Sync to BC completed | {"synced":3,"failed":0,"batches":"TT-ALEXA","durationMs":845}
+[2026-01-28T16:15:01.560Z] [INFO] Bulk save time entries | {"tenant":"silki","rawData":{"companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f","entries":[{"bc_job_id":"CON-26-00003","bc_task_id":"1001","date":"2026-01-31","hours":8,"description":"Timesheet entry for 2026-01-31"}]}}
+[2026-01-28T16:15:02.101Z] [INFO] Bulk save completed | {"created":1,"updated":0,"deleted":0,"failed":0,"errors":[]}
+[2026-01-28T16:15:37.148Z] [INFO] Sync to BC started | {"tenantSlug":"silki","companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f"}
+[2026-01-28T16:15:37.149Z] [INFO] Sync requested by user | {"resourceNo":"R0100"}
+[2026-01-28T16:15:37.415Z] [INFO] Pending entries found | {"count":1,"companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f","resourceNo":"R0100"}
+[2026-01-28T16:15:37.416Z] [DEBUG] Syncing entry to BC | {"entryId":"bf353d71-b348-49d8-b5de-ca56853450b8","batch":"TT-ALEXA","description":"Timesheet entry for 2026-01-31"}
+[2026-01-28T16:15:37.417Z] [DEBUG] Creating new BC journal line | {"entryId":"bf353d71-b348-49d8-b5de-ca56853450b8"}
+[2026-01-28T16:15:38.204Z] [DEBUG] Supabase update result | {"entryId":"bf353d71-b348-49d8-b5de-ca56853450b8","hasError":false,"error":null,"updatedCount":1}
+[2026-01-28T16:15:38.205Z] [INFO] ✅ Entry synced successfully to BC | {"entryId":"bf353d71-b348-49d8-b5de-ca56853450b8","batch":"TT-ALEXA","journalId":"7b6fc293-64fc-f011-8405-7ced8d3a6b8c","lineNo":210000,"updatedInDb":true}
+[2026-01-28T16:15:38.266Z] [INFO] Batch record created | {"batchName":"TT-ALEXA","entries":1,"hours":"8.00"}
+[2026-01-28T16:15:38.343Z] [INFO] Sync to BC completed | {"synced":1,"failed":0,"batches":"TT-ALEXA","durationMs":1058}
+[2026-01-28T16:17:21.417Z] [WARN] Entry deleted in BC detected during load | {"entryId":"bf353d71-b348-49d8-b5de-ca56853450b8","bcJournalId":"7b6fc293-64fc-f011-8405-7ced8d3a6b8c"}
+[2026-01-28T16:19:46.731Z] [INFO] Bulk save time entries | {"tenant":"silki","rawData":{"companyId":"fe3857d4-291c-4252-9d16-c9a5db7ba50f","entries":[{"bc_job_id":"CON-26-00003","bc_task_id":"1001","date":"2026-01-31","hours":0,"description":"Timesheet entry for 2026-01-31"}]}}
+[2026-01-28T16:19:47.105Z] [INFO] Bulk save completed | {"created":0,"updated":0,"deleted":1,"failed":0,"errors":[]}

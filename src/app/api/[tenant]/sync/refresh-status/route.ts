@@ -112,7 +112,9 @@ export async function GET(
     const bcStatuses = await bcClient.getJobJournalLinesStatus(journalIds);
 
     let updatedCount = 0;
+    let deletedInBcCount = 0;
     const updates: any[] = [];
+    const deletedInBc: any[] = [];
 
     // Check each entry and update if status changed
     for (const entry of syncedEntries) {
@@ -146,6 +148,32 @@ export async function GET(
 
           updatedCount++;
         }
+      } else {
+        // 🗑️ Entry was deleted in BC - mark as not_synced and editable
+        logger.warn('Entry deleted in BC, resetting sync status', {
+          entryId: entry.id,
+          bcJournalId: entry.bc_journal_id
+        });
+
+        deletedInBc.push({
+          id: entry.id,
+          bc_journal_id: entry.bc_journal_id,
+          old_status: entry.approval_status
+        });
+
+        // Reset the entry to allow re-sync or editing
+        await supabaseAdmin
+          .from('time_entries')
+          .update({
+            bc_sync_status: 'not_synced',
+            bc_journal_id: null,
+            is_editable: true,
+            approval_status: 'pending',
+            bc_comments: 'Entry was deleted in Business Central'
+          })
+          .eq('id', entry.id);
+
+        deletedInBcCount++;
       }
     }
 
@@ -154,6 +182,7 @@ export async function GET(
     logger.info('Refresh status completed', {
       checked: syncedEntries.length,
       updated: updatedCount,
+      deletedInBc: deletedInBcCount,
       durationMs: duration
     });
 
@@ -163,13 +192,14 @@ export async function GET(
       company_id: companyId,
       operation_type: 'refresh_status',
       log_level: 'info',
-      message: `Refreshed approval status: ${updatedCount} entries updated out of ${syncedEntries.length} checked`,
+      message: `Refreshed approval status: ${updatedCount} entries updated, ${deletedInBcCount} deleted in BC, out of ${syncedEntries.length} checked`,
       entries_processed: syncedEntries.length,
       entries_succeeded: updatedCount,
-      entries_failed: 0,
+      entries_failed: deletedInBcCount,
       duration_ms: duration,
       details: {
-        updates: updates.length > 0 ? updates : undefined
+        updates: updates.length > 0 ? updates : undefined,
+        deletedInBc: deletedInBc.length > 0 ? deletedInBc : undefined
       }
     });
 
@@ -177,8 +207,10 @@ export async function GET(
       success: true,
       checked_entries: syncedEntries.length,
       updated_entries: updatedCount,
+      deleted_in_bc: deletedInBcCount,
       updates: updates,
-      message: `Checked ${syncedEntries.length} entries, updated ${updatedCount}`
+      deleted_entries: deletedInBc,
+      message: `Checked ${syncedEntries.length} entries, updated ${updatedCount}, ${deletedInBcCount} deleted in BC`
     });
 
   } catch (error) {

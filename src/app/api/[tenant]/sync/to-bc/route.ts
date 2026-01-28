@@ -373,6 +373,7 @@ export async function POST(
       synced_entries: syncedCount,
       failed_entries: failedCount,
       errors: errors.length > 0 ? errors : undefined,
+      error_details: errorDetails.length > 0 ? errorDetails : undefined,
       message: `Successfully synced ${syncedCount} entries to ${batchNamesUsed.length} batch(es)${failedCount > 0 ? `, ${failedCount} failed` : ''}`
     });
 

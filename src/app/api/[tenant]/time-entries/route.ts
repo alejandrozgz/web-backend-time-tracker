@@ -92,8 +92,95 @@ export async function GET(
 
     if (error) throw error;
 
+    // 🔄 Check synced entries against BC to detect deletions
+    let finalEntries = entries || [];
+    let deletedInBcCount = 0;
+
+    if (tenant.oauth_enabled && finalEntries.length > 0) {
+      // Filter entries that are synced and have bc_journal_id
+      const syncedEntries = finalEntries.filter(
+        e => e.bc_sync_status === 'synced' && e.bc_journal_id
+      );
+
+      if (syncedEntries.length > 0) {
+        try {
+          const bcClient = new BusinessCentralClient(tenant, company);
+          const journalIds = syncedEntries.map(e => e.bc_journal_id).filter(Boolean) as string[];
+
+          // Fetch statuses from BC
+          const bcStatuses = await bcClient.getJobJournalLinesStatus(journalIds);
+
+          // Find entries deleted in BC
+          const deletedEntryIds: string[] = [];
+
+          for (const entry of syncedEntries) {
+            if (!entry.bc_journal_id) continue;
+
+            const bcStatus = bcStatuses.get(entry.bc_journal_id);
+
+            if (!bcStatus) {
+              // Entry was deleted in BC
+              logger.warn('Entry deleted in BC detected during load', {
+                entryId: entry.id,
+                bcJournalId: entry.bc_journal_id
+              });
+
+              deletedEntryIds.push(entry.id);
+
+              // Reset the entry
+              await supabaseAdmin
+                .from('time_entries')
+                .update({
+                  bc_sync_status: 'not_synced',
+                  bc_journal_id: null,
+                  is_editable: true,
+                  approval_status: 'pending',
+                  bc_comments: 'Entry was deleted in Business Central'
+                })
+                .eq('id', entry.id);
+
+              deletedInBcCount++;
+            } else {
+              // Update approval status if changed
+              if (entry.approval_status !== bcStatus.approvalStatus.toLowerCase() ||
+                  entry.bc_comments !== bcStatus.comments) {
+                await supabaseAdmin
+                  .from('time_entries')
+                  .update({
+                    approval_status: bcStatus.approvalStatus.toLowerCase(),
+                    bc_comments: bcStatus.comments
+                  })
+                  .eq('id', entry.id);
+              }
+            }
+          }
+
+          // Update the entries array with the new status
+          if (deletedEntryIds.length > 0) {
+            finalEntries = finalEntries.map(e => {
+              if (deletedEntryIds.includes(e.id)) {
+                return {
+                  ...e,
+                  bc_sync_status: 'not_synced',
+                  bc_journal_id: null,
+                  is_editable: true,
+                  approval_status: 'pending',
+                  bc_comments: 'Entry was deleted in Business Central'
+                };
+              }
+              return e;
+            });
+          }
+        } catch (bcError) {
+          // Don't fail the request if BC check fails, just log it
+          logger.error('Failed to verify entries against BC', { error: bcError });
+        }
+      }
+    }
+
     return NextResponse.json({
-      entries: entries || []
+      entries: finalEntries,
+      deleted_in_bc: deletedInBcCount > 0 ? deletedInBcCount : undefined
     });
 
   } catch (error) {
