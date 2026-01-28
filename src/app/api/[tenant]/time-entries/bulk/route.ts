@@ -7,7 +7,7 @@ const bulkEntrySchema = z.object({
   bc_job_id: z.string().min(1),
   bc_task_id: z.string().min(1),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-  hours: z.number().min(0.01).max(24),
+  hours: z.number().min(0).max(24),  // Allow 0 to delete entries
   description: z.string().min(1)
 });
 
@@ -24,7 +24,7 @@ export async function POST(
     const { tenant: tenantSlug } = await params;
     const rawData = await request.json();
 
-    logger.info('Bulk save time entries', { tenant: tenantSlug });
+    logger.info('Bulk save time entries', { tenant: tenantSlug, rawData });
 
     const validatedData = bulkSaveSchema.parse(rawData);
 
@@ -76,6 +76,7 @@ export async function POST(
     const results = {
       created: 0,
       updated: 0,
+      deleted: 0,
       failed: 0,
       errors: [] as Array<{ entry: any; error: string }>
     };
@@ -95,24 +96,37 @@ export async function POST(
           .maybeSingle();
 
         if (existing) {
-          // Update existing entry if editable
+          // Check if editable
           if (!existing.is_editable) {
             throw new Error('Entry is not editable');
           }
 
-          const { error: updateError } = await supabaseAdmin
-            .from('time_entries')
-            .update({
-              hours: entry.hours,
-              description: entry.description,
-              last_modified_at: new Date().toISOString(),
-              bc_sync_status: 'not_synced'
-            })
-            .eq('id', existing.id);
+          // If hours = 0, delete the entry
+          if (entry.hours === 0) {
+            const { error: deleteError } = await supabaseAdmin
+              .from('time_entries')
+              .delete()
+              .eq('id', existing.id);
 
-          if (updateError) throw updateError;
-          results.updated++;
-        } else {
+            if (deleteError) throw deleteError;
+            results.deleted++;
+          } else {
+            // Update existing entry
+            const { error: updateError } = await supabaseAdmin
+              .from('time_entries')
+              .update({
+                hours: entry.hours,
+                description: entry.description,
+                last_modified_at: new Date().toISOString(),
+                bc_sync_status: 'not_synced'
+              })
+              .eq('id', existing.id);
+
+            if (updateError) throw updateError;
+            results.updated++;
+          }
+        } else if (entry.hours > 0) {
+          // Only create new entry if hours > 0
           // Create new entry
           const { error: createError } = await supabaseAdmin
             .from('time_entries')
@@ -152,6 +166,7 @@ export async function POST(
 
   } catch (error) {
     if (error instanceof z.ZodError) {
+      logger.error('Bulk save validation failed', { issues: error.issues });
       return NextResponse.json({
         error: 'Validation failed',
         details: error.issues
