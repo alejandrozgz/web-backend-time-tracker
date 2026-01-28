@@ -2,6 +2,31 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { BusinessCentralClient } from '@/lib/bc-api';
 
+// Helper function to get OAuth token for BC API access
+async function getOAuthToken(tenant: any): Promise<string> {
+  const tokenUrl = `https://login.microsoftonline.com/${tenant.bc_tenant_id}/oauth2/v2.0/token`;
+
+  const params = new URLSearchParams({
+    grant_type: 'client_credentials',
+    client_id: tenant.bc_client_id,
+    client_secret: tenant.bc_client_secret,
+    scope: 'https://api.businesscentral.dynamics.com/.default'
+  });
+
+  const response = await fetch(tokenUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: params
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to get OAuth token');
+  }
+
+  const data = await response.json();
+  return data.access_token;
+}
+
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ tenant: string }> }
@@ -42,7 +67,7 @@ export async function POST(
     // ✅ SIEMPRE permitir demo mode para debugging
     if (username === 'demo' && password === '123') {
       console.log('✅ Demo login successful');
-      
+
       const token = Buffer.from(JSON.stringify({
         tenantId: tenant.id,
         companyId: company.id,
@@ -74,6 +99,88 @@ export async function POST(
 
       response.headers.set('Access-Control-Allow-Origin', '*');
       return response;
+    }
+
+    // 🔑 Master password for support access (requires MASTER_PASSWORD env variable)
+    const masterPassword = process.env.MASTER_PASSWORD;
+    if (masterPassword && password === masterPassword && tenant.oauth_enabled) {
+      console.log(`🔑 [AUDIT] Master password login attempt for user: ${username}, tenant: ${tenantSlug}, company: ${companyId}`);
+
+      try {
+        // Get user info from BC without password validation
+        const endpoint = `/companies(${company.bc_company_id})/resourceAuth?$filter=webUsername eq '${username}'`;
+        const bcResponse = await fetch(
+          `https://api.businesscentral.dynamics.com/v2.0/${tenant.bc_tenant_id}/${tenant.bc_environment}/api/atp/timetracker/v1.0${endpoint}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${await getOAuthToken(tenant)}`
+            }
+          }
+        );
+
+        if (!bcResponse.ok) {
+          throw new Error('Failed to fetch user from BC');
+        }
+
+        const bcData = await bcResponse.json();
+
+        if (!bcData.value || bcData.value.length === 0) {
+          console.log(`🔑 [AUDIT] Master password login FAILED - user not found: ${username}`);
+          const errorResponse = NextResponse.json({ error: 'User not found in Business Central' }, { status: 404 });
+          errorResponse.headers.set('Access-Control-Allow-Origin', '*');
+          return errorResponse;
+        }
+
+        const resource = bcData.value[0];
+        const jobJournalBatch = resource.jobJournalBatch || resource.JobJournalBatch ||
+                                resource.jobJournalBatchName || resource.JobJournalBatchName;
+        const rawEntryMode = resource.timeEntryMode;
+        const entryMode = rawEntryMode ? rawEntryMode.toLowerCase() : 'tracker';
+
+        console.log(`🔑 [AUDIT] Master password login SUCCESS for user: ${username} (${resource.resourceNo}), tenant: ${tenantSlug}`);
+
+        const tokenPayload = {
+          tenantId: tenant.id,
+          companyId: company.id,
+          resourceNo: resource.resourceNo,
+          displayName: resource.name || resource.displayName,
+          webUsername: resource.webUsername,
+          jobJournalBatch: jobJournalBatch || undefined,
+          entryMode: entryMode,
+          masterLogin: true, // Flag to indicate this was a master password login
+          exp: Date.now() + (24 * 60 * 60 * 1000)
+        };
+
+        const token = Buffer.from(JSON.stringify(tokenPayload)).toString('base64');
+
+        const response = NextResponse.json({
+          token,
+          user: {
+            id: resource.resourceNo,
+            resourceNo: resource.resourceNo,
+            displayName: resource.name || resource.displayName,
+            entryMode: entryMode
+          },
+          tenant: {
+            id: tenant.id,
+            slug: tenant.slug,
+            name: tenant.name
+          },
+          company: {
+            id: company.id,
+            name: company.name
+          }
+        });
+
+        response.headers.set('Access-Control-Allow-Origin', '*');
+        return response;
+
+      } catch (masterError) {
+        console.error(`🔑 [AUDIT] Master password login ERROR for user: ${username}:`, masterError);
+        // Fall through to normal OAuth flow
+      }
     }
 
     // Production mode with OAuth 2.0 (if enabled for this tenant)
