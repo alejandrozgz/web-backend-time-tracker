@@ -4,7 +4,7 @@ import { listLogFiles, readLogFile, getLogFileStats, getLogRetentionInfo, cleanu
 import { logger } from '@/lib/logger';
 
 // GET - List all log files or read a specific log file
-async function GET(request: NextRequest) {
+async function handleGET(request: NextRequest) {
   try {
     const url = new URL(request.url);
     const filename = url.searchParams.get('filename');
@@ -75,7 +75,7 @@ async function GET(request: NextRequest) {
 }
 
 // POST - Cleanup old log files
-async function POST(request: NextRequest) {
+async function handlePOST(request: NextRequest) {
   try {
     const body = await request.json();
     const action = body.action;
@@ -114,7 +114,5 @@ async function POST(request: NextRequest) {
   }
 }
 
-export { withAdminAuth as middleware };
-export const GET_HANDLER = withAdminAuth(GET);
-export const POST_HANDLER = withAdminAuth(POST);
-export { GET_HANDLER as GET, POST_HANDLER as POST };
+export const GET = withAdminAuth(handleGET);
+export const POST = withAdminAuth(handlePOST);
