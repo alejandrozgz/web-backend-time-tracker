@@ -137,8 +137,8 @@ export async function POST(
 
     // Process updates (with single etag retry on 412)
     for (const { entry, base } of toUpdate) {
-      let currentEtag: string = base.bc_etag;
-      let lineNo: number = base.bc_line_no;
+      const currentEtag: string = base.bc_etag;
+      const lineNo: number = base.bc_line_no;
       try {
         const bcLine = await bcClient.updateJobPlanningLine(lineNo, currentEtag, {
           quantity: parseFloat(entry.planned_hours),
