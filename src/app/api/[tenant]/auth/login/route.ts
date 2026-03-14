@@ -209,7 +209,7 @@ export async function POST(
         // Note: User activity is tracked via time_entries.resource_no and time_entries.last_modified_at
         // No separate users table needed
 
-        // Create JWT token with BC resource info including jobJournalBatch and entryMode
+        // Create JWT token with BC resource info including jobJournalBatch, entryMode and role
         const tokenPayload = {
           tenantId: tenant.id,
           companyId: company.id,
@@ -218,6 +218,7 @@ export async function POST(
           webUsername: bcResource.webUsername,
           jobJournalBatch: bcResource.jobJournalBatch,
           entryMode: bcResource.entryMode || 'tracker',
+          role: (bcResource as any).isPlanningManager ? 'pm' : 'resource',
           exp: Date.now() + (24 * 60 * 60 * 1000) // 24 hours
         };
 
@@ -231,7 +232,8 @@ export async function POST(
             id: bcResource.resourceNo,
             resourceNo: bcResource.resourceNo,
             displayName: bcResource.displayName,
-            entryMode: bcResource.entryMode
+            entryMode: bcResource.entryMode,
+            role: (bcResource as any).isPlanningManager ? 'pm' : 'resource'
           },
           tenant: {
             id: tenant.id,

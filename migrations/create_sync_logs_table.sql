@@ -4,11 +4,15 @@
 -- This table stores detailed logs of all BC synchronization operations
 -- including individual entry sync attempts, batch operations, and errors
 
--- Create enum for log levels
-CREATE TYPE sync_log_level AS ENUM ('info', 'warning', 'error', 'success');
+-- Create enum for log levels (idempotente)
+DO $$ BEGIN
+  CREATE TYPE sync_log_level AS ENUM ('info', 'warning', 'error', 'success');
+EXCEPTION WHEN duplicate_object THEN null; END $$;
 
--- Create enum for sync operation types
-CREATE TYPE sync_operation_type AS ENUM ('sync_to_bc', 'post_batch', 'fetch_from_bc', 'retry');
+-- Create enum for sync operation types (idempotente)
+DO $$ BEGIN
+  CREATE TYPE sync_operation_type AS ENUM ('sync_to_bc', 'post_batch', 'fetch_from_bc', 'retry');
+EXCEPTION WHEN duplicate_object THEN null; END $$;
 
 -- Create the sync logs table
 CREATE TABLE IF NOT EXISTS bc_sync_logs (
@@ -37,7 +41,7 @@ CREATE TABLE IF NOT EXISTS bc_sync_logs (
   duration_ms INT, -- Operation duration in milliseconds
 
   -- User context
-  user_id UUID REFERENCES users(id) ON DELETE SET NULL,
+  user_id UUID, -- no FK — resources use custom JWT auth, not Supabase auth.users
   resource_no VARCHAR(50),
 
   -- BC context
@@ -57,18 +61,18 @@ CREATE TABLE IF NOT EXISTS bc_sync_logs (
 );
 
 -- Create indexes for performance
-CREATE INDEX idx_bc_sync_logs_tenant ON bc_sync_logs(tenant_id);
-CREATE INDEX idx_bc_sync_logs_company ON bc_sync_logs(company_id);
-CREATE INDEX idx_bc_sync_logs_created_at ON bc_sync_logs(created_at DESC);
-CREATE INDEX idx_bc_sync_logs_operation ON bc_sync_logs(operation_type);
-CREATE INDEX idx_bc_sync_logs_level ON bc_sync_logs(log_level);
-CREATE INDEX idx_bc_sync_logs_batch ON bc_sync_logs(batch_id) WHERE batch_id IS NOT NULL;
-CREATE INDEX idx_bc_sync_logs_entry ON bc_sync_logs(time_entry_id) WHERE time_entry_id IS NOT NULL;
-CREATE INDEX idx_bc_sync_logs_user ON bc_sync_logs(user_id) WHERE user_id IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_bc_sync_logs_tenant ON bc_sync_logs(tenant_id);
+CREATE INDEX IF NOT EXISTS idx_bc_sync_logs_company ON bc_sync_logs(company_id);
+CREATE INDEX IF NOT EXISTS idx_bc_sync_logs_created_at ON bc_sync_logs(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_bc_sync_logs_operation ON bc_sync_logs(operation_type);
+CREATE INDEX IF NOT EXISTS idx_bc_sync_logs_level ON bc_sync_logs(log_level);
+CREATE INDEX IF NOT EXISTS idx_bc_sync_logs_batch ON bc_sync_logs(batch_id) WHERE batch_id IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_bc_sync_logs_entry ON bc_sync_logs(time_entry_id) WHERE time_entry_id IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_bc_sync_logs_user ON bc_sync_logs(user_id) WHERE user_id IS NOT NULL;
 
 -- Create a composite index for common filtering
-CREATE INDEX idx_bc_sync_logs_company_date ON bc_sync_logs(company_id, created_at DESC);
-CREATE INDEX idx_bc_sync_logs_batch_name ON bc_sync_logs(batch_name) WHERE batch_name IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_bc_sync_logs_company_date ON bc_sync_logs(company_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_bc_sync_logs_batch_name ON bc_sync_logs(batch_name) WHERE batch_name IS NOT NULL;
 
 -- Add comments for documentation
 COMMENT ON TABLE bc_sync_logs IS 'Detailed logs of all Business Central synchronization operations';
@@ -239,16 +243,11 @@ $$ LANGUAGE plpgsql;
 -- Enable RLS
 ALTER TABLE bc_sync_logs ENABLE ROW LEVEL SECURITY;
 
--- Policy: Users can view logs for their tenant
-CREATE POLICY "Users can view sync logs for their tenant"
-  ON bc_sync_logs FOR SELECT
-  USING (
-    tenant_id IN (
-      SELECT tenant_id FROM users WHERE id = auth.uid()
-    )
-  );
+-- Policy: Service role has full access (app uses custom JWT, not Supabase auth)
+-- authenticated policy omitted — app bypasses RLS via service_role key
 
 -- Policy: Service role has full access (for API routes)
+DROP POLICY IF EXISTS "Service role has full access to sync logs" ON bc_sync_logs;
 CREATE POLICY "Service role has full access to sync logs"
   ON bc_sync_logs FOR ALL
   USING (auth.jwt() ->> 'role' = 'service_role');

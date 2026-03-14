@@ -177,7 +177,8 @@ export class BusinessCentralClient {
         webUsername: resource.webUsername,
         isActive: resource.blocked !== true,
         jobJournalBatch: jobJournalBatch || undefined,
-        entryMode: entryMode
+        entryMode: entryMode,
+        isPlanningManager: resource.isPlanningManager === true || resource.isPlanningManager === 'true'
       };
     } catch (error) {
       console.error('BC Auth error:', error);
@@ -417,6 +418,107 @@ export class BusinessCentralClient {
       return null;
     }
   }
+
+  // ============================================================
+  // PLANNING LINES METHODS
+  // ============================================================
+
+  async getJobPlanningLines(
+    opts: { resourceNo?: string; dateFrom?: string; dateTo?: string; jobNo?: string } = {}
+  ): Promise<any[]> {
+    try {
+      const filters: string[] = ["type eq 'Resource'"];
+      if (opts.resourceNo) filters.push(`no eq '${opts.resourceNo}'`);
+      if (opts.dateFrom)   filters.push(`planningDate ge ${opts.dateFrom}`);
+      if (opts.dateTo)     filters.push(`planningDate le ${opts.dateTo}`);
+      if (opts.jobNo)      filters.push(`jobNo eq '${opts.jobNo}'`);
+
+      const endpoint = `/companies(${this.companyId})/jobPlanningLines?$filter=${filters.join(' and ')}`;
+      const data = await this.callBCApi(endpoint);
+      return data.value || [];
+    } catch (error) {
+      console.error('BC Get Job Planning Lines error:', error);
+      throw error;
+    }
+  }
+
+  async createJobPlanningLine(line: {
+    jobNo: string;
+    jobTaskNo: string;
+    no: string;
+    planningDate: string;
+    quantity: number;
+    description?: string;
+    lineType?: string;
+  }): Promise<any> {
+    try {
+      const endpoint = `/companies(${this.companyId})/jobPlanningLines`;
+      const body = {
+        ...line,
+        type: 'Resource',
+        lineType: line.lineType || 'Budget'
+      };
+      const data = await this.callBCApi(endpoint, {
+        method: 'POST',
+        body: JSON.stringify(body)
+      });
+      return data;
+    } catch (error) {
+      console.error('BC Create Job Planning Line error:', error);
+      throw error;
+    }
+  }
+
+  async updateJobPlanningLine(
+    lineNo: number,
+    etag: string,
+    updates: { quantity?: number; description?: string; planningDate?: string }
+  ): Promise<any> {
+    try {
+      const endpoint = `/companies(${this.companyId})/jobPlanningLines(${lineNo})`;
+      const data = await this.callBCApi(endpoint, {
+        method: 'PATCH',
+        body: JSON.stringify(updates),
+        headers: { 'If-Match': etag }
+      });
+      return data;
+    } catch (error) {
+      console.error('BC Update Job Planning Line error:', error);
+      throw error;
+    }
+  }
+
+  async deleteJobPlanningLine(lineNo: number, etag: string): Promise<void> {
+    try {
+      const endpoint = `/companies(${this.companyId})/jobPlanningLines(${lineNo})`;
+      await this.callBCApi(endpoint, {
+        method: 'DELETE',
+        headers: { 'If-Match': etag }
+      });
+    } catch (error) {
+      console.error('BC Delete Job Planning Line error:', error);
+      throw error;
+    }
+  }
+
+  async getResourceCapacity(
+    resourceNo: string,
+    dateFrom: string,
+    dateTo: string
+  ): Promise<any[]> {
+    try {
+      const filter = `no eq '${resourceNo}' and date ge ${dateFrom} and date le ${dateTo}`;
+      const endpoint = `/companies(${this.companyId})/resourceCapacity?$filter=${filter}`;
+      const data = await this.callBCApi(endpoint);
+      return data.value || [];
+    } catch (error) {
+      // Graceful fallback: endpoint may not be exposed in the custom extension
+      console.warn('BC Resource Capacity not available, using fallback:', error);
+      return [];
+    }
+  }
+
+  // ============================================================
 
   async getJobJournalLinesStatus(journalIds: string[]): Promise<Map<string, { approvalStatus: string; comments: string }>> {
     const results = new Map<string, { approvalStatus: string; comments: string }>();

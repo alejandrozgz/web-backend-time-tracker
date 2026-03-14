@@ -22,6 +22,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS trigger_update_admin_users_updated_at ON admin_users;
 CREATE TRIGGER trigger_update_admin_users_updated_at
   BEFORE UPDATE ON admin_users
   FOR EACH ROW

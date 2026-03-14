@@ -51,12 +51,14 @@ CREATE INDEX IF NOT EXISTS idx_bc_sync_logs_batch_id ON bc_sync_logs(batch_id);
 ALTER TABLE bc_sync_logs ENABLE ROW LEVEL SECURITY;
 
 -- Create RLS policies
+DROP POLICY IF EXISTS "Allow service role full access to bc_sync_logs" ON bc_sync_logs;
 CREATE POLICY "Allow service role full access to bc_sync_logs"
   ON bc_sync_logs FOR ALL
   TO service_role
   USING (true)
   WITH CHECK (true);
 
+DROP POLICY IF EXISTS "Allow authenticated users to read their company logs" ON bc_sync_logs;
 CREATE POLICY "Allow authenticated users to read their company logs"
   ON bc_sync_logs FOR SELECT
   TO authenticated

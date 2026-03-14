@@ -168,7 +168,13 @@ export async function POST(
         errorDetails.push({
           entry_id: entry.id,
           error: 'No batch name configured',
-          code: 'MISSING_BATCH_NAME'
+          code: 'MISSING_BATCH_NAME',
+          resource_no: entry.resource_no,
+          bc_job_id: entry.bc_job_id,
+          bc_task_id: entry.bc_task_id,
+          hours: parseFloat(entry.hours),
+          date: entry.date,
+          description: entry.description
         });
         continue; // Skip this entry
       }
@@ -301,7 +307,13 @@ export async function POST(
         errorDetails.push({
           entry_id: entry.id,
           error: errorMessage,
-          code: errorCode
+          code: errorCode,
+          resource_no: entry.resource_no,
+          bc_job_id: entry.bc_job_id,
+          bc_task_id: entry.bc_task_id,
+          hours: parseFloat(entry.hours),
+          date: entry.date,
+          description: entry.description
         });
       }
     }

@@ -80,3 +80,110 @@ export interface TimeEntry {
   created_at: string;
   updated_at: string;
 }
+
+// ============================================================
+// PLANNING MODULE TYPES
+// ============================================================
+
+export type PlanningDraftStatus = 'draft' | 'locked' | 'publishing' | 'published' | 'error';
+export type PublishLineStatus = 'pending' | 'created' | 'updated' | 'deleted' | 'unchanged' | 'error';
+export type DiffLineStatus = 'new' | 'modified' | 'deleted' | 'unchanged';
+export type UserRole = 'resource' | 'pm';
+
+export interface PlanningDraft {
+  id: string;
+  tenant_id: string;
+  company_id: string;
+  created_by_resource: string;
+  name: string;
+  date_from: string;
+  date_to: string;
+  status: PlanningDraftStatus;
+  bc_baseline_fetched_at?: string;
+  published_at?: string;
+  publish_summary?: PublishSummary;
+  notes?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface PlanningEntry {
+  id: string;
+  draft_id: string;
+  tenant_id: string;
+  company_id: string;
+  resource_no: string;
+  bc_job_id: string;
+  bc_task_id: string;
+  planning_date: string;
+  planned_hours: number;
+  description?: string;
+  publish_status: PublishLineStatus;
+  bc_line_no?: number;
+  bc_system_id?: string;
+  bc_etag?: string;
+  publish_error?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface PlanningBaselineLine {
+  id: string;
+  draft_id: string;
+  tenant_id: string;
+  company_id: string;
+  resource_no: string;
+  bc_job_id: string;
+  bc_task_id: string;
+  planning_date: string;
+  quantity: number;
+  description?: string;
+  bc_line_no: number;
+  bc_system_id?: string;
+  bc_etag?: string;
+  fetched_at: string;
+}
+
+export interface DiffLine {
+  status: DiffLineStatus;
+  resource_no: string;
+  bc_job_id: string;
+  bc_task_id: string;
+  planning_date: string;
+  baseline_hours?: number;
+  planned_hours?: number;
+  delta: number;
+  bc_line_no?: number;
+  bc_etag?: string;
+  // Joined display fields
+  job_name?: string;
+  task_description?: string;
+  resource_display_name?: string;
+}
+
+export interface PublishSummary {
+  created: number;
+  updated: number;
+  deleted: number;
+  unchanged: number;
+  failed: number;
+  errors: Array<{ line: DiffLine; error: string }>;
+}
+
+export interface CapacityDay {
+  date: string;
+  planned_hours: number;
+  actual_hours: number;
+  capacity_hours: number;
+  is_overloaded: boolean;
+}
+
+export interface CapacityRow {
+  resource_no: string;
+  display_name: string;
+  daily_capacity_hours: number;
+  days: CapacityDay[];
+  total_planned: number;
+  total_actual: number;
+  total_capacity: number;
+}

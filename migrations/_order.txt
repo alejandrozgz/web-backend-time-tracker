@@ -1,0 +1,38 @@
+# Orden de ejecución de migraciones
+# Una línea por archivo. Las líneas con # son comentarios.
+# Los archivos nuevos deben añadirse al FINAL con prefijo timestamp: YYYYMMDD_NNN_nombre.sql
+# El script de migraciones lee este archivo y aplica solo los no ejecutados aún.
+
+# ── Schema base ──────────────────────────────────────────────
+000_base_schema.sql
+create_admin_users.sql
+create_sync_logs_table.sql
+create_bc_sync_logs_minimal.sql
+
+# ── Extensiones de time_entries ───────────────────────────────
+add_approval_fields_to_time_entries.sql
+add_bc_batch_name_to_time_entries.sql
+add_bc_journal_composite_keys.sql
+add_user_activity_tracking.sql
+
+# ── Limpieza y correcciones de datos ─────────────────────────
+cleanup_data_first.sql
+cleanup_sync_status.sql
+migrate_existing_statuses.sql
+fix_modified_status.sql
+fix_sync_dashboard_legacy_statuses.sql
+final_cleanup_sync_status.sql
+
+# ── Funciones RPC (sync dashboard y pending entries) ──────────
+update_sync_dashboard_function.sql
+update_sync_dashboard_add_user_filter.sql
+update_get_pending_sync_entries_function.sql
+update_get_pending_sync_entries_add_user_filter.sql
+fix_get_pending_sync_entries_function.sql
+rollback_get_pending_sync_entries_function.sql
+
+# ── Módulo de Planificación de Recursos ───────────────────────
+create_planning_drafts.sql
+create_planning_entries.sql
+create_planning_baseline_lines.sql
+add_capacity_to_resources.sql
