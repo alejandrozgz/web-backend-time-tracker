@@ -141,6 +141,8 @@ export async function POST(
 
         console.log(`🔑 [AUDIT] Master password login SUCCESS for user: ${username} (${resource.resourceNo}), tenant: ${tenantSlug}`);
 
+        const isPlanningManager = resource.isPlanningManager === true || resource.isPlanningManager === 'true';
+
         const tokenPayload = {
           tenantId: tenant.id,
           companyId: company.id,
@@ -149,6 +151,7 @@ export async function POST(
           webUsername: resource.webUsername,
           jobJournalBatch: jobJournalBatch || undefined,
           entryMode: entryMode,
+          role: isPlanningManager ? 'pm' : 'resource',
           masterLogin: true, // Flag to indicate this was a master password login
           exp: Date.now() + (24 * 60 * 60 * 1000)
         };
@@ -161,7 +164,8 @@ export async function POST(
             id: resource.resourceNo,
             resourceNo: resource.resourceNo,
             displayName: resource.name || resource.displayName,
-            entryMode: entryMode
+            entryMode: entryMode,
+            role: isPlanningManager ? 'pm' : 'resource'
           },
           tenant: {
             id: tenant.id,

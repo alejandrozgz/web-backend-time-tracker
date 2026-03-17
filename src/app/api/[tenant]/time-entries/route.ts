@@ -70,7 +70,6 @@ export async function GET(
         bc_sync_status,
         bc_journal_id,
         bc_batch_name,
-        bc_ledger_id,
         approval_status,
         bc_comments,
         last_modified_at,

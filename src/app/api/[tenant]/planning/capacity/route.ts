@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
+import { BusinessCentralClient } from '@/lib/bc-api';
 import { requirePMRole } from '@/lib/planning-auth';
 import { logger } from '@/lib/logger';
 
@@ -31,6 +32,7 @@ export async function GET(
 ) {
   try {
     requirePMRole(request);
+    const { tenant: tenantSlug } = await params;
     const { searchParams } = new URL(request.url);
     const companyId   = searchParams.get('companyId');
     const dateFrom    = searchParams.get('dateFrom');
@@ -51,8 +53,32 @@ export async function GET(
       .eq('company_id', companyId)
       .eq('is_active', true);
     if (resourceNos.length > 0) resourcesQuery = resourcesQuery.in('resource_no', resourceNos);
-    const { data: resources, error: resourcesError } = await resourcesQuery;
+    const { data: dbResources, error: resourcesError } = await resourcesQuery;
     if (resourcesError) throw resourcesError;
+
+    let resources = dbResources || [];
+
+    // If Supabase has no resources, try BC
+    if (resources.length === 0) {
+      const { data: tenant } = await supabaseAdmin.from('tenants').select('*').eq('slug', tenantSlug).single();
+      const { data: company } = await supabaseAdmin.from('companies').select('*').eq('id', companyId).single();
+      if (tenant?.oauth_enabled && company) {
+        try {
+          const bcResources = await new BusinessCentralClient(tenant, company).getAllResources();
+          resources = bcResources.map((r: any) => ({
+            resource_no: r.resourceNo,
+            display_name: r.displayName,
+            daily_capacity_hours: 8
+          }));
+        } catch (e) {
+          logger.warn('BC resources fetch failed for capacity', { error: e instanceof Error ? e.message : e });
+        }
+      }
+    }
+
+    if (resourceNos.length > 0) {
+      resources = resources.filter((r: any) => resourceNos.includes(r.resource_no));
+    }
 
     const days = eachDayBetween(dateFrom, dateTo);
     const allResourceNos = (resources || []).map((r: any) => r.resource_no);

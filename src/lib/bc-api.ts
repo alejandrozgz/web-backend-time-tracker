@@ -171,6 +171,20 @@ export class BusinessCentralClient {
       console.log(`  - resource.timeEntryMode (raw): ${rawEntryMode}`);
       console.log(`  - entryMode (normalized): ${entryMode}`);
 
+      // Try different possible field names for isPlanningManager
+      const rawIsPM = resource.isPlanningManager ?? resource.IsPlanningManager ??
+                      resource.isPM ?? resource.IsPM ??
+                      resource.planningManager ?? resource.PlanningManager;
+      const isPlanningManager = rawIsPM === true || rawIsPM === 'true' || rawIsPM === 1;
+
+      console.log(`📋 isPlanningManager field variations:`);
+      console.log(`  - resource.isPlanningManager: ${resource.isPlanningManager}`);
+      console.log(`  - resource.IsPlanningManager: ${resource.IsPlanningManager}`);
+      console.log(`  - resource.isPM: ${resource.isPM}`);
+      console.log(`  - resource.planningManager: ${resource.planningManager}`);
+      console.log(`  - Final isPlanningManager: ${isPlanningManager}`);
+      console.log(`📋 Full BC resource object keys: ${Object.keys(resource).join(', ')}`);
+
       return {
         resourceNo: resource.resourceNo,
         displayName: resource.name || resource.displayName,
@@ -178,7 +192,7 @@ export class BusinessCentralClient {
         isActive: resource.blocked !== true,
         jobJournalBatch: jobJournalBatch || undefined,
         entryMode: entryMode,
-        isPlanningManager: resource.isPlanningManager === true || resource.isPlanningManager === 'true'
+        isPlanningManager
       };
     } catch (error) {
       console.error('BC Auth error:', error);
@@ -514,6 +528,40 @@ export class BusinessCentralClient {
     } catch (error) {
       // Graceful fallback: endpoint may not be exposed in the custom extension
       console.warn('BC Resource Capacity not available, using fallback:', error);
+      return [];
+    }
+  }
+
+  async getAllJobsAndTasks(personResponsible?: string): Promise<{ jobs: any[], tasks: any[] }> {
+    try {
+      let jobsFilter = `status eq 'Open'`;
+      if (personResponsible) jobsFilter += ` and personResponsible eq '${personResponsible}'`;
+
+      const jobsData = await this.callBCApi(`/companies(${this.companyId})/jobs?$filter=${encodeURIComponent(jobsFilter)}`);
+      const jobs: any[] = jobsData.value || [];
+
+      if (jobs.length === 0) return { jobs: [], tasks: [] };
+
+      // Fetch tasks only for the filtered jobs
+      const jobNos = jobs.map((j: any) => j.no || j.number).filter(Boolean);
+      const jobFilter = jobNos.map((no: string) => `jobNo eq '${no}'`).join(' or ');
+      const tasksData = await this.callBCApi(
+        `/companies(${this.companyId})/jobTasks?$filter=${encodeURIComponent(`jobTaskType eq 'Posting' and (${jobFilter})`)}`
+      );
+
+      return { jobs, tasks: tasksData.value || [] };
+    } catch (error) {
+      console.error('BC getAllJobsAndTasks error:', error);
+      return { jobs: [], tasks: [] };
+    }
+  }
+
+  async getAllResources(): Promise<any[]> {
+    try {
+      const data = await this.callBCApi(`/companies(${this.companyId})/resources?$filter=blocked eq false`);
+      return data.value || [];
+    } catch (error) {
+      console.error('BC getAllResources error:', error);
       return [];
     }
   }

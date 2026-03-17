@@ -1,0 +1,8 @@
+[2026-03-17T09:50:05.923Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":7}
+[2026-03-17T09:50:06.698Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":7}
+[2026-03-17T09:52:51.172Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8"}
+[2026-03-17T09:52:51.174Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-17T09:52:51.527Z] [INFO] No synced entries to refresh | {"companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8","resourceNo":"RECURSO3"}
+[2026-03-17T09:52:52.030Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8"}
+[2026-03-17T09:52:52.032Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-17T09:52:52.354Z] [INFO] No synced entries to refresh | {"companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8","resourceNo":"RECURSO3"}

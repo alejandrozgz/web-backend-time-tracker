@@ -1,0 +1,202 @@
+[2026-03-14T19:12:41.598Z] [INFO] Admin login attempt | {"username":"admin"}
+[2026-03-14T19:12:41.831Z] [WARN] Admin login failed - invalid password | {"username":"admin"}
+[2026-03-14T19:12:43.976Z] [INFO] Admin login attempt | {"username":"admin"}
+[2026-03-14T19:12:44.233Z] [INFO] Admin login successful | {"username":"admin","userId":"ecb721c0-7e82-46ec-8d27-9e0a069bc1c3"}
+[2026-03-14T19:15:57.155Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:15:57.156Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:15:57.466Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:15:57.934Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:15:57.935Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:15:58.214Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:34:01.942Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:34:01.944Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:34:02.330Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:34:02.916Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:34:02.918Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:34:03.161Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:36:28.916Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:36:28.917Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:36:29.194Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:36:29.830Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:36:29.831Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:36:30.073Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:39:51.375Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:39:51.379Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:39:51.730Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:39:52.695Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:39:52.696Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:39:52.931Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:41:55.644Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:41:55.645Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:41:55.958Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:41:56.746Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:41:56.747Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:41:57.097Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:42:40.500Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:42:40.501Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:42:40.766Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:44:37.118Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:44:37.121Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:44:37.424Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:44:38.233Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:44:38.234Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:44:38.445Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:45:09.460Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:45:09.461Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:45:09.703Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:45:10.279Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:45:10.280Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:45:10.505Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:47:14.074Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:47:14.077Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:47:14.331Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:47:14.938Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:47:14.939Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:47:15.156Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:48:45.116Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:48:45.118Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:48:45.486Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:48:46.326Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:48:46.327Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:48:46.565Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:54:40.189Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:54:40.201Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:54:40.671Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:54:43.251Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:54:43.256Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:54:43.516Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:54:52.989Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:54:53.103Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:54:53.750Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:55:08.435Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:55:08.497Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:55:09.144Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:55:12.974Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:55:12.999Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:55:13.489Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:57:33.047Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:57:33.069Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:57:33.971Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:57:36.153Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:57:36.175Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:57:36.586Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:57:40.978Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:57:41.012Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:57:41.998Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:57:43.880Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:57:43.934Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:57:44.602Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:59:24.704Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:59:24.791Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:59:26.625Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T19:59:29.093Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T19:59:29.095Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T19:59:29.582Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T20:15:14.793Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T20:15:14.816Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T20:15:15.557Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T20:15:16.983Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T20:15:16.985Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T20:15:17.501Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T20:16:32.880Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T20:16:32.881Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T20:16:33.290Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T20:16:34.970Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T20:16:35.022Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T20:16:35.601Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T20:16:38.305Z] [ERROR] GET planning/drafts failed | {"error":"Unknown error"}
+[2026-03-14T20:16:39.040Z] [ERROR] GET planning/drafts failed | {"error":"Unknown error"}
+[2026-03-14T20:17:29.375Z] [ERROR] POST planning/drafts failed | {"error":"Could not find the table 'public.planning_drafts' in the schema cache"}
+[2026-03-14T20:17:39.335Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T20:17:39.337Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T20:17:39.809Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T20:17:42.211Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T20:17:42.231Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T20:17:42.697Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T20:17:44.429Z] [ERROR] GET planning/drafts failed | {"error":"Unknown error"}
+[2026-03-14T20:17:46.609Z] [ERROR] GET planning/drafts failed | {"error":"Unknown error"}
+[2026-03-14T20:41:12.343Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T20:41:12.345Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T20:41:12.665Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T20:41:13.266Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T20:41:13.267Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T20:41:13.466Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T20:41:18.177Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T20:41:18.178Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T20:41:18.451Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T20:41:19.550Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T20:41:19.551Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T20:41:19.772Z] [INFO] No synced entries to refresh | {"companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2","resourceNo":"RECURSO3"}
+[2026-03-14T20:41:21.469Z] [ERROR] GET planning/drafts failed | {"error":"Unknown error"}
+[2026-03-14T20:41:21.907Z] [ERROR] GET planning/drafts failed | {"error":"Unknown error"}
+[2026-03-14T20:41:28.535Z] [ERROR] POST planning/drafts failed | {"error":"Could not find the table 'public.planning_drafts' in the schema cache"}
+[2026-03-14T20:44:25.613Z] [ERROR] POST planning/drafts failed | {"error":"Could not find the table 'public.planning_drafts' in the schema cache"}
+[2026-03-14T20:47:16.772Z] [ERROR] POST planning/drafts failed | {"error":"Tenant not found"}
+[2026-03-14T20:48:26.963Z] [INFO] Admin login attempt | {"username":"admin"}
+[2026-03-14T20:48:27.445Z] [WARN] Admin login failed - invalid password | {"username":"admin"}
+[2026-03-14T20:48:32.886Z] [INFO] Admin login attempt | {"username":"admin"}
+[2026-03-14T20:48:33.143Z] [WARN] Admin login failed - invalid password | {"username":"admin"}
+[2026-03-14T20:48:37.078Z] [INFO] Admin login attempt | {"username":"admin"}
+[2026-03-14T20:48:37.421Z] [WARN] Admin login failed - invalid password | {"username":"admin"}
+[2026-03-14T20:48:40.618Z] [INFO] Admin login attempt | {"username":"admin"}
+[2026-03-14T20:48:40.838Z] [WARN] Admin login failed - invalid password | {"username":"admin"}
+[2026-03-14T20:51:05.279Z] [INFO] Admin login attempt | {"username":"admin"}
+[2026-03-14T20:51:05.856Z] [WARN] Admin login failed - invalid password | {"username":"admin"}
+[2026-03-14T20:53:46.422Z] [INFO] Admin login attempt | {"username":"admin"}
+[2026-03-14T20:53:46.972Z] [INFO] Admin login successful | {"username":"admin","userId":"837e176f-836e-4856-a7b8-4b6a26bcd950"}
+[2026-03-14T21:13:30.405Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T21:13:30.406Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T21:13:30.717Z] [ERROR] Refresh status failed | {"error":{},"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T21:13:31.626Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T21:13:31.627Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T21:13:31.766Z] [ERROR] Refresh status failed | {"error":{},"tenantSlug":"demo","companyId":"7e28f13d-5e01-4a51-bd9e-4532f5d674e2"}
+[2026-03-14T21:13:42.085Z] [ERROR] POST planning/drafts failed | {"error":"Company not found"}
+[2026-03-14T21:14:36.119Z] [ERROR] POST planning/drafts failed | {"error":"Company not found"}
+[2026-03-14T21:15:29.032Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8"}
+[2026-03-14T21:15:29.036Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T21:15:29.536Z] [INFO] No synced entries to refresh | {"companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8","resourceNo":"RECURSO3"}
+[2026-03-14T21:15:29.608Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-14T21:15:29.616Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-14T21:15:30.397Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8"}
+[2026-03-14T21:15:30.398Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T21:15:30.671Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-14T21:15:30.676Z] [INFO] No synced entries to refresh | {"companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8","resourceNo":"RECURSO3"}
+[2026-03-14T21:15:30.688Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-14T21:15:39.245Z] [INFO] Planning draft created | {"draftId":"57f6167b-630b-4f6a-8906-86dcad6da8e0","baselineCount":0,"createdBy":"RECURSO3"}
+[2026-03-14T21:20:17.877Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8"}
+[2026-03-14T21:20:17.879Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T21:20:18.282Z] [INFO] No synced entries to refresh | {"companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8","resourceNo":"RECURSO3"}
+[2026-03-14T21:20:18.569Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-14T21:20:18.573Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-14T21:20:18.757Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8"}
+[2026-03-14T21:20:18.777Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T21:20:19.090Z] [INFO] No synced entries to refresh | {"companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8","resourceNo":"RECURSO3"}
+[2026-03-14T21:20:19.366Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-14T21:20:19.380Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-14T21:22:26.523Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":7}
+[2026-03-14T21:22:27.315Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":7}
+[2026-03-14T21:25:55.424Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":1}
+[2026-03-14T21:25:56.224Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":1}
+[2026-03-14T21:26:56.775Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":7}
+[2026-03-14T21:26:57.603Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":7}
+[2026-03-14T21:27:48.263Z] [INFO] Planning entries bulk saved | {"draftId":"57f6167b-630b-4f6a-8906-86dcad6da8e0","created":4,"updated":0,"failed":0}
+[2026-03-14T21:28:26.236Z] [INFO] Planning baseline refreshed | {"draftId":"57f6167b-630b-4f6a-8906-86dcad6da8e0","linesRefreshed":0}
+[2026-03-14T21:28:47.059Z] [INFO] Planning entries bulk saved | {"draftId":"57f6167b-630b-4f6a-8906-86dcad6da8e0","created":2,"updated":0,"failed":0}
+[2026-03-14T21:45:41.723Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8"}
+[2026-03-14T21:45:41.725Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T21:45:42.234Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-14T21:45:42.247Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-14T21:45:42.377Z] [INFO] No synced entries to refresh | {"companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8","resourceNo":"RECURSO3"}
+[2026-03-14T21:45:43.238Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8"}
+[2026-03-14T21:45:43.239Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-14T21:45:43.354Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-14T21:45:43.394Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-14T21:45:43.537Z] [INFO] No synced entries to refresh | {"companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8","resourceNo":"RECURSO3"}
+[2026-03-14T21:45:48.193Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":7}
+[2026-03-14T21:45:49.068Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":7}
+[2026-03-14T22:24:16.380Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":7}
+[2026-03-14T22:24:17.227Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":7}
+[2026-03-14T22:25:51.234Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":7}
+[2026-03-14T22:25:52.031Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":7}
+[2026-03-14T23:03:45.754Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":7}
+[2026-03-14T23:03:46.539Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":7}

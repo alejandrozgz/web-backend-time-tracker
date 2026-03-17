@@ -209,10 +209,27 @@ export async function POST(
     }
 
     const finalStatus = summary.failed > 0 ? 'error' : 'published';
-    await supabaseAdmin.from('planning_drafts').update({
+
+    const historyEntry = {
+      publishedAt: new Date().toISOString(),
       status: finalStatus,
-      published_at: finalStatus === 'published' ? new Date().toISOString() : null,
+      summary: { created: summary.created, updated: summary.updated, deleted: summary.deleted, failed: summary.failed }
+    };
+
+    const { data: currentDraft } = await supabaseAdmin
+      .from('planning_drafts')
+      .select('publish_history')
+      .eq('id', draftId)
+      .single();
+
+    const currentHistory = currentDraft?.publish_history || [];
+    const newHistory = [historyEntry, ...currentHistory].slice(0, 20);
+
+    await supabaseAdmin.from('planning_drafts').update({
+      status: finalStatus === 'published' ? 'draft' : finalStatus,
+      published_at: new Date().toISOString(),
       publish_summary: summary,
+      publish_history: newHistory,
       updated_at: new Date().toISOString()
     }).eq('id', draftId);
 

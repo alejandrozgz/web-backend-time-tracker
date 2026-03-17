@@ -1,0 +1,74 @@
+[2026-03-16T10:19:10.223Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8"}
+[2026-03-16T10:19:10.226Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-16T10:19:10.800Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:19:10.814Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:19:10.971Z] [INFO] No synced entries to refresh | {"companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8","resourceNo":"RECURSO3"}
+[2026-03-16T10:19:11.456Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8"}
+[2026-03-16T10:19:11.457Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-16T10:19:11.628Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:19:11.636Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:19:11.760Z] [INFO] No synced entries to refresh | {"companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8","resourceNo":"RECURSO3"}
+[2026-03-16T10:19:26.572Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":7}
+[2026-03-16T10:19:27.488Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":7}
+[2026-03-16T10:20:08.986Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8"}
+[2026-03-16T10:20:08.989Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-16T10:20:09.247Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:20:09.330Z] [INFO] No synced entries to refresh | {"companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8","resourceNo":"RECURSO3"}
+[2026-03-16T10:20:09.411Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:20:09.921Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8"}
+[2026-03-16T10:20:09.922Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-16T10:20:09.986Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:20:10.170Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:20:10.209Z] [INFO] No synced entries to refresh | {"companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8","resourceNo":"RECURSO3"}
+[2026-03-16T10:27:51.659Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:27:51.669Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:27:52.493Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:27:52.840Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:29:59.859Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:29:59.876Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:30:00.530Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:30:00.544Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:30:19.897Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:30:19.943Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:30:58.719Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:30:58.740Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:30:59.359Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:30:59.411Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:33:04.346Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:33:04.355Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:33:09.903Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:33:09.953Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:33:18.433Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:33:18.440Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:36:26.768Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:36:26.778Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:36:27.441Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:36:27.445Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:36:55.353Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:36:55.367Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:36:55.988Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:36:56.066Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:37:09.580Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:37:09.915Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:37:10.158Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:37:10.503Z] [ERROR] Fetch time entries error | {"error":{"code":"42703","details":null,"hint":null,"message":"column time_entries.bc_ledger_id does not exist"},"tenantSlug":"demo"}
+[2026-03-16T10:37:11.014Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8"}
+[2026-03-16T10:37:11.017Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-16T10:37:11.351Z] [INFO] No synced entries to refresh | {"companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8","resourceNo":"RECURSO3"}
+[2026-03-16T10:37:11.750Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8"}
+[2026-03-16T10:37:11.753Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-16T10:37:12.045Z] [INFO] No synced entries to refresh | {"companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8","resourceNo":"RECURSO3"}
+[2026-03-16T10:37:23.612Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":7}
+[2026-03-16T10:37:24.459Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":7}
+[2026-03-16T10:42:15.310Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":7}
+[2026-03-16T10:42:16.136Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":7}
+[2026-03-16T10:42:44.355Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8"}
+[2026-03-16T10:42:44.356Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-16T10:42:44.794Z] [INFO] No synced entries to refresh | {"companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8","resourceNo":"RECURSO3"}
+[2026-03-16T10:42:45.340Z] [INFO] Refresh status from BC started | {"tenantSlug":"demo","companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8"}
+[2026-03-16T10:42:45.341Z] [INFO] Refresh status requested by user | {"resourceNo":"RECURSO3"}
+[2026-03-16T10:42:45.625Z] [INFO] No synced entries to refresh | {"companyId":"85094e3c-6d17-4fa1-b493-74c976933ef8","resourceNo":"RECURSO3"}
+[2026-03-16T10:59:31.472Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":7}
+[2026-03-16T10:59:32.236Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":7}
+[2026-03-16T16:00:12.043Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":7}
+[2026-03-16T16:00:12.792Z] [INFO] GET planning projects from BC | {"tenantSlug":"demo","jobs":3,"tasks":7,"resources":7}
